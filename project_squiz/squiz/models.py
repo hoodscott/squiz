@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User # use built in django user
 
+## todo: create new user model with onetoone field with User that also has a website field
+
 # Model to hold a question
 class Question(models.Model):
     # question and answer as text
