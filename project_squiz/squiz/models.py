@@ -1,7 +1,16 @@
 from django.db import models
 from django.contrib.auth.models import User # use built in django user
 
-## todo: create new user model with onetoone field with User that also has a website field
+# model for the users / teachers
+class Host(models.Model):
+    # Links host to a User model instance.
+    user = models.OneToOneField(User)
+    
+    # hosts website
+    url = models.URLField()
+	
+    def __unicode__(self):
+        return "%s" % (self.user)
 
 # Model to hold a question
 class Question(models.Model):
@@ -11,7 +20,7 @@ class Question(models.Model):
     # optional image
     image = models.ImageField(null=True, blank=True)# can be null
     # creator of the question
-    creator = models.ForeignKey(User)
+    creator = models.ForeignKey(Host)
     
     def __unicode__(self):
         return "%s" % (self.question)
@@ -21,7 +30,7 @@ class Round(models.Model):
     # name of round
     name = models.CharField(max_length=128)
     # creator of the question
-    creator = models.ForeignKey(User)
+    creator = models.ForeignKey(Host)
     
     def __unicode__(self):
         return "%s" % (self.name)    
@@ -31,7 +40,7 @@ class Quiz(models.Model):
     # name of quiz
     name = models.CharField(max_length=128)
     # creator of the question
-    creator = models.ForeignKey(User)
+    creator = models.ForeignKey(Host)
     
     def __unicode__(self):
         return "%s" % (self.name)    
@@ -92,7 +101,7 @@ class QuizInstance(models.Model):
     # link to quiz
     quiz = models.ForeignKey(Quiz)
     # link to host
-    host = models.ForeignKey(User)
+    host = models.ForeignKey(Host)
     
     def __unicode__(self):
         return "%s hosting %s" % (self.host, self.quiz)
@@ -138,7 +147,7 @@ class Venue(models.Model):
     lat = models.FloatField()
     lon = models.FloatField()
     # host related to this venue
-    host = models.ForeignKey(User)
+    host = models.ForeignKey(Host)
     # quiztime
     time = models.ForeignKey(QuizTime)
     
