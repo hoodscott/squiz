@@ -23,7 +23,8 @@ STATIC_PATH = os.path.join(PROJECT_PATH,'static')
 MEDIA_PATH = os.path.join(PROJECT_PATH,'media')
 ## set database path
 DATABASE_PATH = os.path.join(PROJECT_PATH, 'squid.db')
-
+# set template path
+TEMPLATE_PATH = os.path.join(PROJECT_PATH, 'templates')
 
 
 # Quick-start development settings - unsuitable for production
@@ -66,8 +67,8 @@ ROOT_URLCONF = 'project_squiz.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
-        'APP_DIRS': True,
+        'DIRS': [TEMPLATE_PATH],
+        'APP_DIRS': False,
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.debug',
