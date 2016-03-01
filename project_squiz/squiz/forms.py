@@ -1,3 +1,7 @@
+from django import forms
+from squiz.models import *
+from django.contrib.auth.models import User
+
 class QuestionForm(forms.ModelForm):
     
     # question and answer as text

@@ -3,7 +3,24 @@
 {% block title_block %}home{% endblock %}
 
 {% block body_block %}
-
+{% if user.is_authenticated %}
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-12 parent">
+			<div class="block">
+			  <h2>Quizzes<h2>
+			  <!-- insert table here -->
+			  <a class="btn btn-default" href="{% url 'create' %}">New Quiz</a>
+			  <a class="btn btn-info" href="{% url 'create' %}">New Quiz</a>
+			  <a class="btn btn-warning" href="{% url 'create' %}">New Quiz</a>
+			  <a class="btn btn-primary" href="{% url 'create' %}">New Quiz</a>
+			  <a class="btn btn-danger" href="{% url 'create' %}">New Quiz</a>
+			  <a class="btn btn-success" href="{% url 'create' %}">New Quiz</a>
+			</div>
+		</div>
+	</div>
+</div>
+{% else %}
 <div class="container-fluid">
 	<div class="row">
 		<div class="col-md-5 col-md-offset-1 parent">
@@ -21,5 +38,5 @@
 		</div>
 	</div>
 </div>
-
+{% endif %}
 {% endblock %}

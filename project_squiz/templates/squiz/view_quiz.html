@@ -1,0 +1,30 @@
+{% extends 'squiz/base.html' %}
+
+{% block title %}
+    view quiz
+{% endblock %}
+
+{% block body_block %}
+<div>
+    
+    {% if quiz %}
+      <h1>{{quiz.name}}</h1>
+      
+      {% for round in rounds %}
+      <div>
+          <h3><a href="roundview">{{ round.name }}</a></h3>
+          <!-- categories go here? -->
+          <!-- removal button if owner -->
+      </div>
+      {% endfor %}
+      
+      {% if request.user.host == quiz.creator %}
+      <a href="createround">Add Round</a>
+      {% endif %}
+      
+    {% else %}
+      <h2>no quiz at this url</h2>
+    {% endif %}    
+    
+</div>
+{% endblock %}
