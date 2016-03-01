@@ -10,7 +10,9 @@ def index(request):
 	
 # view for other page
 def about(request):
-    return HttpResponse('Squid Logistics')
+    context_dict = {}
+    context = RequestContext(request)
+    return render_to_response('squiz/about.html', context_dict, context)
     
 # user joins quiz
 def join(request):
@@ -18,9 +20,11 @@ def join(request):
 	
 # create quiz/round/questions
 def create(request):
-    return HttpResponse('Created')
+    context_dict = {}
+    context = RequestContext(request)
+    return render_to_response('squiz/create_quiz.html', context_dict, context)
     
-# display scorebaord/ questions (and answers to host)
+# display scoreboard/ questions (and answers to host)
 def quiz(request, session_id):
 	  return HttpResponse('Quiz')
 	
@@ -29,6 +33,6 @@ def nearby(request):
     return HttpResponse('Nearby')
 
 def register(request):
-    return HttpResponse('Register')
-  
-
+    context_dict = {}
+    context = RequestContext(request)
+    return render_to_response('squiz/registration.html', context_dict, context)
