@@ -1,0 +1,31 @@
+{% extends 'squiz/base.html' %}
+
+{% block title %}
+    create round
+{% endblock %}
+
+{% block body_block %}
+<div>
+    <h1>Create Round</h1>
+    
+    <form id="upload_form" method="post" action="{% url 'create_round' %}">
+
+        {% csrf_token %}
+
+        {% for hidden in round_form.hidden_fields %}
+            {{ hidden }}
+        {% endfor %}
+
+        {% for field in round_form.visible_fields %}
+            {{ field.errors }}
+            {{ field.label }}
+            {{ field }}
+            <br>
+        {% endfor %}
+
+        <br/>
+        <button class="btn btn-primary" type="submit" name="submit">Create Round</button>
+    </form>
+    
+</div>
+{% endblock %}

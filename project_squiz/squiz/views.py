@@ -47,7 +47,7 @@ def create_quiz(request):
             # set foreign key of the creator of the quiz
             quiz.creator = request.user.host
 
-            # save resource before we add tags / set tree
+            # save resource
             quiz.save()           
             
             # Now show the new materials page
@@ -65,6 +65,74 @@ def create_quiz(request):
     context_dict['quiz_form'] = quiz_form
 
     return render_to_response('squiz/create_quiz.html', context_dict, context)
+    
+# create round
+def create_round(request, quiz_id=None):
+    
+    # A HTTP POST?
+    if request.method == 'POST':
+        round_form = RoundForm(request.POST)
+
+        # Have we been provided with a valid form?
+        if round_form.is_valid():
+            # delay saving the model until we're ready to avoid integrity problems
+            this_round = round_form.save(commit=False)
+            
+            # set foreign key of the creator of the round
+            this_round.creator = request.user.host
+
+            # save resource
+            this_round.save()
+            
+            # Now show the new materials page
+            return redirect(reverse('view_round', args=[this_round.id]))
+        else:
+            # The supplied form contained errors - just print them to the terminal.
+            print round_form.errors
+    else:
+        # If the request was not a POST, display the form to enter details.
+        round_form = RoundForm()
+    
+    # create dictionary to pass data to templates
+    context_dict = {}
+    context = RequestContext(request)
+    context_dict['round_form'] = round_form
+
+    return render_to_response('squiz/create_round.html', context_dict, context)
+    
+# create question
+def create_question(request, round_id=None):
+    
+    # A HTTP POST?
+    if request.method == 'POST':
+        question_form = QuestionForm(request.POST)
+
+        # Have we been provided with a valid form?
+        if question_form.is_valid():
+            # delay saving the model until we're ready to avoid integrity problems
+            question = round_form.save(commit=False)
+            
+            # set foreign key of the creator of the round
+            question.creator = request.user.host
+
+            # save resource before we add tags
+            question.save()           
+            
+            # Now show the new materials page
+            return redirect(reverse('view_question', args=[question.id]))
+        else:
+            # The supplied form contained errors - just print them to the terminal.
+            print question_form.errors
+    else:
+        # If the request was not a POST, display the form to enter details.
+        question_form = QuestionForm()
+    
+    # create dictionary to pass data to templates
+    context_dict = {}
+    context = RequestContext(request)
+    context_dict['question_form'] = question_form
+
+    return render_to_response('squiz/create_question.html', context_dict, context)
 
 # view a quiz
 def view_quiz(request, quiz_id):
@@ -72,12 +140,44 @@ def view_quiz(request, quiz_id):
     context = RequestContext(request)
     
     try:
-      context_dict['quiz'] = Quiz.objects.get(id=quiz_id)
+      this_quiz = Quiz.objects.get(id=quiz_id)
+      context_dict['quiz'] = this_quiz
+      context_dict['rounds_in_quiz']  = RoundInQuiz.objects.filter(this_quiz = this_quiz)
     except Quiz.DoesNotExist:
       # no quiz at this url
       pass
       
     return render_to_response('squiz/view_quiz.html', context_dict, context)
+    
+# view a round
+def view_round(request, round_id):
+    context_dict = {}
+    context = RequestContext(request)
+    
+    try:
+      this_round = Round.objects.get(id=round_id)
+      context_dict['round'] = this_round
+      context_dict['questions_in_round']  = QuestionInRound.objects.filter(this_round = this_round)
+    except Round.DoesNotExist:
+      # no round at this url
+      pass
+      
+    return render_to_response('squiz/view_round.html', context_dict, context)
+    
+# view a question
+def view_question(request, question_id):
+    context_dict = {}
+    context = RequestContext(request)
+    
+    try:
+      this_round = Question.objects.get(id=question_id)
+      context_dict['question'] = this_question      
+
+    except Question.DoesNotExist:
+      # no round at this url
+      pass
+      
+    return render_to_response('squiz/view_question.html', context_dict, context)
 
     
 # display scoreboard/ questions (and answers to host)

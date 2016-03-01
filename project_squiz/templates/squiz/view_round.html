@@ -1,0 +1,30 @@
+{% extends 'squiz/base.html' %}
+
+{% block title %}
+    view round
+{% endblock %}
+
+{% block body_block %}
+<div>
+    
+    {% if round %}
+      <h1>{{ round.name }}</h1>
+      
+      {% for question in questions_in_round %}
+      <div>
+          <h3><a href="{% url 'view_question' question.this_question.id %}">{{ question.this_question.question }}</a></h3>
+          <!-- categories go here? -->
+          <!-- removal button if owner -->
+      </div>
+      {% endfor %}
+      
+      {% if request.user.host == round.creator %}
+      <a href="{% url 'create_question' round.id %}">Add Question</a>
+      {% endif %}
+      
+    {% else %}
+      <h2>no round at this url</h2>
+    {% endif %}    
+    
+</div>
+{% endblock %}

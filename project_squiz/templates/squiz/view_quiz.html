@@ -10,16 +10,16 @@
     {% if quiz %}
       <h1>{{quiz.name}}</h1>
       
-      {% for round in rounds %}
+      {% for round in rounds_in_quiz %}
       <div>
-          <h3><a href="roundview">{{ round.name }}</a></h3>
+          <h3><a href="{% url 'view_round' round.this_round.id %}">{{ round.this_round.name }}</a></h3>
           <!-- categories go here? -->
           <!-- removal button if owner -->
       </div>
       {% endfor %}
       
       {% if request.user.host == quiz.creator %}
-      <a href="createround">Add Round</a>
+      <a href="{% url 'create_round' quiz.id %}">Add Round</a>
       {% endif %}
       
     {% else %}
