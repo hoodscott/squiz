@@ -1,0 +1,20 @@
+{% extends 'squiz/base.html' %}
+
+{% block title_block %}
+    view question
+{% endblock %}
+
+{% block body_block %}
+<div>
+    
+    {% if question %}
+      <h1>{{ question.question }}</h1>
+      
+      <h4>{{ question.answer }}</h4>
+      
+    {% else %}
+      <h2>no question at this url</h2>
+    {% endif %}    
+    
+</div>
+{% endblock %}

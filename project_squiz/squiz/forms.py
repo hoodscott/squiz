@@ -8,7 +8,7 @@ class QuestionForm(forms.ModelForm):
     question = forms.CharField(max_length=128,
                                 label = "Question",)
     answer = forms.CharField(max_length=128,
-                                label = "Question",)
+                                label = "Answer",)
     
     # optional image
     image = forms.ImageField(label="Upload Image",

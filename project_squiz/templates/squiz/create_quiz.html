@@ -1,6 +1,6 @@
 {% extends 'squiz/base.html' %}
 
-{% block title %}
+{% block title_block %}
     create quiz
 {% endblock %}
 
@@ -8,7 +8,7 @@
 <div>
     <h1>Create Quiz</h1>
     
-    <form class="span6" id="upload_form" method="post" action="{% url 'create' %}">
+    <form class="span6" id="upload_form" method="post" action="{% url 'create_quiz' %}">
 
         {% csrf_token %}
 

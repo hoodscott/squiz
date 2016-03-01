@@ -1,5 +1,5 @@
 # django imports
-from django.shortcuts import render_to_response, redirect
+from django.shortcuts import render_to_response, redirect, get_object_or_404
 from django.core.urlresolvers import reverse
 from django.http import HttpResponse
 from django.template import RequestContext
@@ -68,6 +68,14 @@ def create_quiz(request):
     
 # create round
 def create_round(request, quiz_id=None):
+
+    # create dictionary to pass data to templates
+    context_dict = {}
+    context = RequestContext(request)
+
+    if quiz_id != None:
+        this_quiz = get_object_or_404(Quiz, id = quiz_id)
+        context_dict['quiz'] = this_quiz
     
     # A HTTP POST?
     if request.method == 'POST':
@@ -84,8 +92,21 @@ def create_round(request, quiz_id=None):
             # save resource
             this_round.save()
             
-            # Now show the new materials page
-            return redirect(reverse('view_round', args=[this_round.id]))
+            print "saved"
+            
+            if quiz_id != None:
+                # add this new round to the quiz
+                round_num = RoundInQuiz.objects.filter(this_quiz = this_quiz).count()
+                
+                new_record = RoundInQuiz(this_round = this_round, this_quiz = this_quiz, number=round_num)
+                new_record.save()
+                
+                # redirect back to quiz page
+                return redirect(reverse('view_quiz', args=[quiz_id]))
+            else:
+                print quiz_id
+                # otherwise show the new round page
+                return redirect(reverse('view_round', args=[this_round.id]))
         else:
             # The supplied form contained errors - just print them to the terminal.
             print round_form.errors
@@ -93,15 +114,20 @@ def create_round(request, quiz_id=None):
         # If the request was not a POST, display the form to enter details.
         round_form = RoundForm()
     
-    # create dictionary to pass data to templates
-    context_dict = {}
-    context = RequestContext(request)
     context_dict['round_form'] = round_form
 
     return render_to_response('squiz/create_round.html', context_dict, context)
     
 # create question
 def create_question(request, round_id=None):
+
+    # create dictionary to pass data to templates
+    context_dict = {}
+    context = RequestContext(request)
+
+    if round_id != None:
+        this_round = get_object_or_404(Round, id = round_id)
+        context_dict['round'] = this_round
     
     # A HTTP POST?
     if request.method == 'POST':
@@ -110,16 +136,27 @@ def create_question(request, round_id=None):
         # Have we been provided with a valid form?
         if question_form.is_valid():
             # delay saving the model until we're ready to avoid integrity problems
-            question = round_form.save(commit=False)
+            question = question_form.save(commit=False)
             
             # set foreign key of the creator of the round
             question.creator = request.user.host
 
             # save resource before we add tags
-            question.save()           
+            question.save()
             
-            # Now show the new materials page
-            return redirect(reverse('view_question', args=[question.id]))
+            if round_id != None:
+                # add this new round to the quiz
+                question_num = QuestionInRound.objects.filter(this_round = this_round).count()
+                
+                new_record = QuestionInRound(this_question = question, this_round = this_round, number=question_num)
+                new_record.save()
+                
+                # redirect back to round page
+                return redirect(reverse('view_round', args=[round_id]))
+            else:
+                # otherwise show the new question page
+                return redirect(reverse('view_question', args=[question.id]))                   
+
         else:
             # The supplied form contained errors - just print them to the terminal.
             print question_form.errors
@@ -127,9 +164,6 @@ def create_question(request, round_id=None):
         # If the request was not a POST, display the form to enter details.
         question_form = QuestionForm()
     
-    # create dictionary to pass data to templates
-    context_dict = {}
-    context = RequestContext(request)
     context_dict['question_form'] = question_form
 
     return render_to_response('squiz/create_question.html', context_dict, context)
@@ -170,7 +204,7 @@ def view_question(request, question_id):
     context = RequestContext(request)
     
     try:
-      this_round = Question.objects.get(id=question_id)
+      this_question = Question.objects.get(id=question_id)
       context_dict['question'] = this_question      
 
     except Question.DoesNotExist:
