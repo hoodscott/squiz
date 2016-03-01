@@ -1,9 +1,12 @@
-from django.shortcuts import render
+from django.shortcuts import render_to_response
 from django.http import HttpResponse
+from django.template import RequestContext
 
 # view for the homepage
 def index(request):
-	return HttpResponse('Homepage')
+    context_dict = {}
+    context = RequestContext(request)
+    return render_to_response('squiz/home.html', context_dict, context)
 	
 # view for other page
 def about(request):
@@ -11,7 +14,7 @@ def about(request):
     
 # user joins quiz
 def join(request):
-	return HttpResponse('Joined')
+	  return HttpResponse('Joined')
 	
 # create quiz/round/questions
 def create(request):
@@ -19,8 +22,10 @@ def create(request):
     
 # display scorebaord/ questions (and answers to host)
 def quiz(request, session_id):
-	return HttpResponse('Quiz')
+	  return HttpResponse('Quiz')
 	
 # shows pup quizzes and times near to the users location
 def nearby(request):
     return HttpResponse('Nearby')
+  
+
