@@ -27,5 +27,8 @@ def quiz(request, session_id):
 # shows pup quizzes and times near to the users location
 def nearby(request):
     return HttpResponse('Nearby')
+
+def register(request):
+    return HttpResponse('Register')
   
 
