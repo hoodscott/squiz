@@ -1,0 +1,33 @@
+{% extends 'squiz/base.html' %}
+
+{% block title_block %}
+    create question
+{% endblock %}
+?
+{% block body_block %}
+<div>
+    <h1>Create Quiz</h1>
+    
+    <form id="upload_form" method="post" {% if round %}action="{% url 'create_question' round.id %}"{% else %}action="{% url 'create_question' %}"{% endif %} enctype="multipart/formdata">
+
+        {% csrf_token %}
+
+        {% for hidden in question_form.hidden_fields %}
+            {{ hidden }}
+        {% endfor %}
+
+        {% for field in question_form.visible_fields %}
+            {% if field.label != "Upload Image" %}
+            {{ field.errors }}
+            {{ field.label }}
+            {{ field }}
+            {% endif %}
+            <br>
+        {% endfor %}
+
+        <br/>
+        <button class="btn btn-primary" type="submit" name="submit" tabindex='1'>Create Question</button>
+    </form>
+    
+</div>
+{% endblock %}
