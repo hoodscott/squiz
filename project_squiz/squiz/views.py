@@ -257,3 +257,9 @@ def register(request):
     context_dict['host_form'] = host_form
     context = RequestContext(request)
     return render_to_response('squiz/registration.html', context_dict, context)
+    
+def login(request):
+    return HttpResponse('Login')
+    
+def logout(request):
+    return HttpResponse('Logout')    

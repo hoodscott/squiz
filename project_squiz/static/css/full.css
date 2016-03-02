@@ -28,20 +28,19 @@ body {
   	font-family: 'Open Sans',Arial,Helvetica,Sans-Serif;
 }
 
-.full {
+.height10 {
 	height: 10%;
 }
 
-.block3 {
+.height20 {
   height: 20%;
-
 }
 
-.block2 {
+.height80 {
   height: 80%;
 }
 
-.font18 {
+.titlefont {
 	font-size: 5em;
 }
 

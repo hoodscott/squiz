@@ -4,46 +4,49 @@
 {% block body_block %}
 {% if user.is_authenticated %}
 <div class="container-fluid">
-	<div class="row">
-		<div class="col-md-12 parent">
-			<div class="block">
-			  <h2>Quizzes<h2>
-			  <!-- insert table here -->
-			  <a class="btn btn-default" href="{% url 'create_quiz' %}">New Quiz</a>
-			  <a class="btn btn-info" href="{% url 'create_quiz' %}">New Quiz</a>
-			  <a class="btn btn-warning" href="{% url 'create_quiz' %}">New Quiz</a>
-			  <a class="btn btn-primary" href="{% url 'create_quiz' %}">New Quiz</a>
-			  <a class="btn btn-danger" href="{% url 'create_quiz' %}">New Quiz</a>
-			  <a class="btn btn-success" href="{% url 'create_quiz' %}">New Quiz</a>
-			</div>
-		</div>
-	</div>
+  <div class="row">
+    <div class="col-md-12 parent">
+      <div class="block">
+        <h2>Quizzes<h2>
+        <!-- insert table here -->
+        <a class="btn btn-default" href="{% url 'create_quiz' %}">New Quiz</a>
+        <a class="btn btn-info" href="{% url 'create_quiz' %}">New Quiz</a>
+        <a class="btn btn-warning" href="{% url 'create_quiz' %}">New Quiz</a>
+        <a class="btn btn-primary" href="{% url 'create_quiz' %}">New Quiz</a>
+        <a class="btn btn-danger" href="{% url 'create_quiz' %}">New Quiz</a>
+        <a class="btn btn-success" href="{% url 'create_quiz' %}">New Quiz</a>
+      </div>
+    </div>
+  </div>
 </div>
 {% else %}
 <!-- Put your page content here! -->
 <div id="full">
   <div class="container-fluid">
-		<div class="full"></div>
+    <div class="height10"></div>
     <div class="row">
+      <!-- Left Pane -->
       <div class="col-md-5 col-md-offset-1">
         <div class="block">
-<div class="block3">
-          <p class="font18">Join Quiz</p>
-   </div>
-						<div class="block2">
-
-              <button type="button" class="btn btn-default btn-lg home-buttons icon">
-              <span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span> <br> _loin!
-              </button>
-
-              <button type="button" class="btn btn-default btn-lg home-buttons icon">
-              <span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span> <br> Near Me
-              </button>
-
-   </div>
-
+          <div class="height20">
+            <p class="titlefont">Join Quiz</p>
+          </div>
+          <div class="height80">
+            <a href="{% url 'join' %}">
+            <button id="join_button" type="button"  class="btn btn-default btn-lg home-buttons icon">
+            <span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span> <br> _loin!
+            </button>
+            </a>
+            <a href="{% url 'nearby' %}"
+            <button id="nearby_button" type="button" href="{% url 'nearby' %}"  class="btn btn-default btn-lg home-buttons icon">
+            <span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span> <br> Near Me
+            </button>
+            </a>
+          </div>
         </div>
       </div>
+      
+      <!-- Right Pane -->
       <div class="col-md-5">
         <div class="block">
           <h1>Host Login</h1>
