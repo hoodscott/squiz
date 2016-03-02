@@ -1,3 +1,5 @@
+@import url('http://fonts.googleapis.com/css?family=Open+Sans:200,300');
+
 /*!
  * Start Bootstrap - Full HTML Template (http://startbootstrap.com)
  * Code licensed under the Apache License v2.0.
@@ -5,11 +7,15 @@
  */
 
 body {
-    margin-top: 50px; /* Required margin for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. */
+	height: 100%;
+}
+
+html{
+	height: 100%;
 }
 
 /* Header Image Background - Change the URL below to your image path (example: ../images/background.jpg) */
-
+#full {height: 100%; padding-top: 50px;}
 
 body {
     background: url('../images/background.jpg') no-repeat center center fixed;
@@ -17,23 +23,61 @@ body {
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
-	color:#fff;
+		color:#fff;
   	background-color:#333;
   	font-family: 'Open Sans',Arial,Helvetica,Sans-Serif;
 }
 
+.full {
+	height: 10%;
+}
+
+.block3 {
+  height: 20%;
+
+}
+
+.block2 {
+  height: 80%;
+}
+
+.font18 {
+	font-size: 5em;
+}
 
 .block {
-	background-color:rgba(0,0,0,0.2);
-    height:600px;
-	width:100%;
-	text-align:center
+	background-color:rgba(0,0,0,0.4);
+  height: 100%;
+	padding: 30px;
+	text-align:center;	
+	border-radius: 10px;
 }
 
-.parent {
-min-height: 92%;
-min-height: 92vh;
-display: flex;
-align-items: center;
+.home-buttons {
+	width: 100%;
+	height: 40%;
+	margin-top: 30px;
+
+	border-radius: 10px;
 }
 
+.container-fluid{
+	height: 100%;
+}
+
+.row {
+	height: 80%;
+}
+
+.col-md-5 {
+	height:100%;
+	margin-bottom: 15px;
+}
+.col-md-offset-1{
+	height:100%;
+	margin-bottom: 15px;
+}
+
+.icon {
+	font-size: 50px;
+}
