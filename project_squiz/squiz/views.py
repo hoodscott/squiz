@@ -5,8 +5,8 @@ from django.http import HttpResponse
 from django.template import RequestContext
 
 # import forms and models of this project
-from squiz.forms import *
-from squiz.models import *
+from forms import *
+from models import *
 
 # view for the homepage
 def index(request):
@@ -223,6 +223,37 @@ def nearby(request):
     return HttpResponse('Nearby')
 
 def register(request):
+    # A HTTP POST?
+    if request.method == 'POST':
+        user_form = RegisterUserForm(request.POST)
+        host_form = RegisterHostForm(request.POST)
+
+     # Have we been provided with a valid form?
+        if user_form.is_valid() and host_form.is_valid():
+            # delay saving the model until we're ready to avoid integrity problems
+            user = user_form.save()
+            host = host_form.save(commit=False)
+
+            # set the onetoOne field of host to be the user
+            host.user = user
+
+            # save resource
+            host.save()
+
+            return redirect(reverse('index'))
+
+        else:
+            # The supplied form contained errors - just print them to the terminal.
+            print user_form.errors
+
+    else:
+        # If the request was not a POST, display the form to enter details.
+        user_form = RegisterUserForm()
+        host_form = RegisterHostForm()
+
+
     context_dict = {}
+    context_dict['user_form'] = user_form
+    context_dict['host_form'] = host_form
     context = RequestContext(request)
     return render_to_response('squiz/registration.html', context_dict, context)

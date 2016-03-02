@@ -8,7 +8,7 @@
 <div>
     <h1>Create Quiz</h1>
     
-    <form class="span6" id="upload_form" method="post" {% if round %}action="{% url 'create_question' round.id %}"{% else %}action="{% url 'create_question' %}"{% endif %} enctype="multipart/formdata">
+    <form id="upload_form" method="post" {% if round %}action="{% url 'create_question' round.id %}"{% else %}action="{% url 'create_question' %}"{% endif %} enctype="multipart/formdata">
 
         {% csrf_token %}
 
