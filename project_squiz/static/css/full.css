@@ -28,6 +28,10 @@ body {
   	font-family: 'Open Sans',Arial,Helvetica,Sans-Serif;
 }
 
+input, select, textarea {
+	color: #000000;
+}
+
 .height10 {
 	height: 10%;
 }
