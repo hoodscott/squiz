@@ -6,6 +6,12 @@ from models import *
 class RegisterHostForm(forms.ModelForm):
 
     url = forms.URLField(help_text="Enter the url of the pub's website")
+    
+    # add bootstrap class to each field
+    def __init__(self, *args, **kwargs):
+        super(RegisterHostForm, self).__init__(*args, **kwargs)
+        for field_name, field in self.fields.items():
+            field.widget.attrs['class'] = 'form-control'
 
     class Meta:
         model = Host
@@ -18,13 +24,17 @@ class RegisterUserForm(forms.ModelForm):
     first_name = forms.CharField(max_length=30)
     last_name = forms.CharField(max_length=30)
     email = forms.CharField()
-    password = forms.CharField()
-
+    password = forms.CharField(widget=forms.PasswordInput)
+    
+    # add bootstrap class to each field
+    def __init__(self, *args, **kwargs):
+        super(RegisterUserForm, self).__init__(*args, **kwargs)
+        for field_name, field in self.fields.items():
+            field.widget.attrs['class'] = 'form-control'
 
     class Meta:
         model = User
         fields = ('username', 'first_name', 'last_name', 'email', 'password')
-
 
 
 class QuestionForm(forms.ModelForm):
@@ -42,10 +52,17 @@ class QuestionForm(forms.ModelForm):
     # creator of the question
     creator = forms.IntegerField(widget = forms.HiddenInput(), required=False)
     
+    # add bootstrap class to each field
+    def __init__(self, *args, **kwargs):
+        super(QuestionForm, self).__init__(*args, **kwargs)
+        for field_name, field in self.fields.items():
+            field.widget.attrs['class'] = 'form-control'
+    
     class Meta:
         model = Question
         fields = ('question', 'answer', 'image', 'creator')
         exclude = []
+        
         
 class RoundForm(forms.ModelForm):
     
@@ -56,10 +73,17 @@ class RoundForm(forms.ModelForm):
     # creator of the question
     creator = forms.IntegerField(widget = forms.HiddenInput(), required=False)
     
+    # add bootstrap class to each field
+    def __init__(self, *args, **kwargs):
+        super(RoundForm, self).__init__(*args, **kwargs)
+        for field_name, field in self.fields.items():
+            field.widget.attrs['class'] = 'form-control'
+    
     class Meta:
         model = Round
         fields = ('name', 'creator')
         exclude = []
+        
         
 class QuizForm(forms.ModelForm):
     
@@ -70,10 +94,17 @@ class QuizForm(forms.ModelForm):
     # creator of the question
     creator = forms.IntegerField(widget = forms.HiddenInput(), required=False)
     
+    # add bootstrap class to each field
+    def __init__(self, *args, **kwargs):
+        super(QuizForm, self).__init__(*args, **kwargs)
+        for field_name, field in self.fields.items():
+            field.widget.attrs['class'] = 'form-control'
+    
     class Meta:
         model = Quiz
         fields = ('name', 'creator')
         exclude = []
+        
 
 class LoginForm(forms.Form):
 

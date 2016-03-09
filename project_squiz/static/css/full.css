@@ -108,5 +108,6 @@ input, select, textarea {
 
 .errorlist {
   color: rgba(255, 34, 34, 1);
+  list-style-type: none;
 }
 
