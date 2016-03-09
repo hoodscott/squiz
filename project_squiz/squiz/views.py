@@ -28,12 +28,15 @@ def index(request):
         if user: # if user is not none then authentication has been successful
             if user.is_active:
                 # If the account is valid and active, we can log the user in.
-                # We'll send the user back to the homepage.
+                # Then We'll send the user back to the homepage.
                 login(request, user)
-
                 return redirect(reverse('index'))
-        #else:
-           # print login_form.errors
+            else:
+                # An inactive account was used - no logging in!
+                context_dict['disabled_account'] = True
+        else:
+            # Bad login details were provided. So we can't log the user in.
+            context_dict['bad_details'] = True
 
     else:
         login_form = LoginForm

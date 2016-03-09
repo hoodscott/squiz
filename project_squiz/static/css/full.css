@@ -45,7 +45,24 @@ input, select, textarea {
 }
 
 .titlefont {
-	font-size: 5em;
+    font-size: 5em;
+  }
+
+@media screen and (max-width : 500px){
+  .titlefont {
+    font-size: 4em;
+  }
+}
+@media screen and (max-width : 333px){
+  .titlefont {
+    font-size: 3em;
+  }
+}
+
+@media screen and (max-width : 500px){
+  .bigbuttontext {
+    font-size: 0.5em;
+  }
 }
 
 .block {
@@ -87,5 +104,9 @@ input, select, textarea {
 
 .table-striped>tbody>tr:nth-of-type(odd){
     background-color: rgba(20, 20, 19, 0.59);
+}
+
+.errorlist {
+  color: rgba(255, 34, 34, 1);
 }
 
