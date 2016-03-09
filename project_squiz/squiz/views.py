@@ -74,7 +74,7 @@ def create_quiz(request):
             quiz.creator = request.user.host
 
             # save resource
-            quiz.save()           
+            quiz.save()
             
             # Now show the new materials page
             return redirect(reverse('view_quiz', args=[quiz.id]))
@@ -181,7 +181,7 @@ def create_question(request, round_id=None):
                 return redirect(reverse('view_round', args=[round_id]))
             else:
                 # otherwise show the new question page
-                return redirect(reverse('view_question', args=[question.id]))                   
+                return redirect(reverse('view_question', args=[question.id]))
 
         else:
             # The supplied form contained errors - just print them to the terminal.
@@ -231,7 +231,7 @@ def view_question(request, question_id):
     
     try:
       this_question = Question.objects.get(id=question_id)
-      context_dict['question'] = this_question      
+      context_dict['question'] = this_question
 
     except Question.DoesNotExist:
       # no round at this url
@@ -267,6 +267,10 @@ def register(request):
         if user_form.is_valid() and host_form.is_valid():
             # delay saving the model until we're ready to avoid integrity problems
             user = user_form.save()
+            # hash password
+            user.set_password(user.password)
+            user.save()
+            
             host = host_form.save(commit=False)
 
             # set the onetoOne field of host to be the user
