@@ -50,6 +50,19 @@
       <div class="col-md-5">
         <div class="block">
           <h1>Host Login</h1>
+            <form id="upload_form" method="post">
+                {% csrf_token %}
+
+                {% for field in login_form.visible_fields %}
+
+                    {{ field.errors }}
+                    {{ field.label }}
+                    {{ field }}
+
+                    <br>
+                {% endfor %}
+            </form>
+            <button type="submit" > Login </button>
         </div>
       </div>
     </div>

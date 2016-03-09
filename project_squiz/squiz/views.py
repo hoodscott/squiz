@@ -31,6 +31,8 @@ def index(request):
                     # We'll send the user back to the homepage.
                     login(request, user)
                     return redirect(reverse('home'))
+    else:
+        login_form = LoginForm
 
     # if user is authenticated
         # add their quizzes to context_dict['my_quizzes']
@@ -38,7 +40,10 @@ def index(request):
         # add top quizzes to context_dict['top_quizzes']
         
         # add some more quizzes to context_dict['more_quizzes']
-        
+
+    context_dict['login_form'] = login_form
+
+
     return render_to_response('squiz/home.html', context_dict, context)
 	
 # view for other page

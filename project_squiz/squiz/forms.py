@@ -80,4 +80,6 @@ class LoginForm(forms.ModelForm):
     username = forms.CharField(max_length=30)
     password = forms.CharField(max_length=30)
     
-
+    class Meta:
+        model = User
+        fields = ('username', 'password')
