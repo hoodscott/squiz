@@ -23,6 +23,5 @@ urlpatterns = [
     url(r'^nearby/(?P<lat>\d+\.\d{6})/(?P<lon>\d+\.\d{6})$', views.nearby, name='nearby'),  #shows pup quizzes and times near to the users location
 
     url(r'^register/$', views.register, name='register'),
-    url(r'^login/$', views.login, name='login'),
-    url(r'^logout/$', views.logout, name='logout'),
+    url(r'^logout/$', views.user_logout, name='logout'),
 ]

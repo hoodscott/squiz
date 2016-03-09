@@ -7,19 +7,52 @@ from django.template import RequestContext
 # import forms and models of this project
 from forms import *
 from models import *
+from django.contrib.auth import authenticate, login, logout
 
 # view for the homepage
 def index(request):
     context_dict = {}
     context = RequestContext(request)
-    
+
+    if request.method == 'POST':
+
+        login_form = LoginForm(request.POST)
+
+        #if login_form.is_valid():
+
+        # Gather the username and password provided by the user.
+        # This information is obtained from the login form.
+        username = request.POST['username']
+        password = request.POST['password']
+
+        user = authenticate(username=username, password=password)
+
+        if user: # if user is not none then authentication has been successful
+            if user.is_active:
+                # If the account is valid and active, we can log the user in.
+                # We'll send the user back to the homepage.
+                #try:
+                login(request, user)
+                #except Exception as e:
+                #    print "not logged in"
+                print "logged in"
+                return redirect(reverse('index'))
+        #else:
+           # print login_form.errors
+
+    else:
+        login_form = LoginForm
+
     # if user is authenticated
         # add their quizzes to context_dict['my_quizzes']
         
         # add top quizzes to context_dict['top_quizzes']
         
         # add some more quizzes to context_dict['more_quizzes']
-        
+
+    context_dict['login_form'] = login_form
+
+
     return render_to_response('squiz/home.html', context_dict, context)
 	
 # view for other page
@@ -260,15 +293,13 @@ def register(request):
         user_form = RegisterUserForm()
         host_form = RegisterHostForm()
 
-
     context_dict = {}
     context_dict['user_form'] = user_form
     context_dict['host_form'] = host_form
     context = RequestContext(request)
     return render_to_response('squiz/registration.html', context_dict, context)
-    
-def login(request):
-    return HttpResponse('Login')
-    
-def logout(request):
-    return HttpResponse('Logout')    
+
+
+def user_logout(request):
+    logout(request)
+    return redirect(reverse('index'))
