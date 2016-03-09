@@ -6,7 +6,7 @@
 
 {% block body_block %}
 <div>
-    
+    {% if venue %}
     {% for venue in venues %}
     <h3> {{ venue.name }} </h3>
     <ul>
@@ -16,6 +16,10 @@
       <li>{{ venue.time }}</li>
     </ul>
     {% endfor %}
+
+    {% else %}
+    <h3> There are no venues to display </h3>
+    {% end if %}
     
 </div>
 {% endblock %}
