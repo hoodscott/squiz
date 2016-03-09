@@ -3,20 +3,50 @@
 
 {% block body_block %}
 {% if user.is_authenticated %}
-<div class="container-fluid">
-  <div class="row">
-    <div class="col-md-12 parent">
-      <div class="block">
-        <h2>Quizzes<h2>
-        <!-- insert table here -->
-        <a class="btn btn-default" href="{% url 'create_quiz' %}">New Quiz</a>
-        <a class="btn btn-info" href="{% url 'create_quiz' %}">New Quiz</a>
-        <a class="btn btn-warning" href="{% url 'create_quiz' %}">New Quiz</a>
-        <a class="btn btn-primary" href="{% url 'create_quiz' %}">New Quiz</a>
-        <a class="btn btn-danger" href="{% url 'create_quiz' %}">New Quiz</a>
-        <a class="btn btn-success" href="{% url 'create_quiz' %}">New Quiz</a>
+<div id="full">
+  <div class="container-fluid">
+    <div class="height10"></div>
+    <div class="row">
+      <div class="col-md-12 parent">
+        <div class="block">
+          <h2>Quizzes</h2>
+            <!-- insert table here -->
+            {% if quizzes %}
+            <table id="quiz_table" class="table table-responsive table-striped table-bordered nowrap" cellspacing="0" width="100%">
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Creator</th>
+                        <th>Number of Rounds</th>
+                        <th>Number of Plays</th>
+                        <th>Edit Quiz</th>
+                        <th>Play Quiz</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for quiz in quizzes %}
+                    <tr>
+                        <td>{{ quiz.name }}</td>
+                        <td>{{ quiz.creator }}</td>
+                        <td>todo</td>
+                        <td>todo</td>
+                        <td><a href="{% url 'view_quiz' quiz.id %}"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span></a></td>
+                        <td><a href=""><span class="glyphicon glyphicon-play" aria-hidden="true"></span></a></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+                <h3>No quizzes on website</h3>
+            {% endif %}
+
+            <br>
+            <a class="btn btn-primary btn-lg pull-right" href="{% url 'create_quiz' %}">New Quiz</a>
+            <p>&nbsp;</p>
+
       </div>
     </div>
+  </div>
   </div>
 </div>
 {% else %}
@@ -50,20 +80,6 @@
       <div class="col-md-5">
         <div class="block">
           <h1>Host Login</h1>
-            <!--form id="upload_form" method="post"  action="{% url 'index' %}">
-                {% csrf_token %}
-
-                {% for field in login_form.visible_fields %}
-
-                    {{ field.errors }}
-                    {{ field.label }}
-                    {{ field }}
-
-                    <br>
-                {% endfor %}
-
-                <button class="btn btn-primary" type="submit" name="submit"  > Login </button>
-            </form-->
             <form class="form-signin span6" id="login_form" method="post" action="{% url 'index' %}">
             <h2 class="form-signin-heading">Please sign in</h2>
             {% csrf_token %}
@@ -87,3 +103,13 @@
 </div>
 {% endif %}
 {% endblock %}
+
+{% block js_block %}
+<script>
+    $(document).ready(function() {
+        $('#quiz_table').DataTable({
+            responsive: true
+        });
+    } );
+</script>
+{% endblock%}

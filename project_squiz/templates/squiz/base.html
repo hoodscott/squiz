@@ -18,7 +18,8 @@
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
     
-    <!-- css files go here -->    
+    <!-- css files go here -->
+    <link rel="stylesheet" type="text/css" href="{% static 'css/datatables.min.css' %}"/>
     <link href="{% static 'css/full.css'%}" rel="stylesheet">
     
     <!-- extra stylesheets go here -->
@@ -74,7 +75,10 @@
     <script src="{% static 'js/jquery.js' %}"></script>
     
     <!-- Bootstrap Core JavaScript -->
-    <script src="{% static 'js/bootstrap.min.js' %}"></script>  
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+
+    <!-- DATATABLES -->
+    <script type="text/javascript" src="{% static 'js/datatables.min.js' %}"></script>
     
     <!-- Other Scripts go here -->   
     {% block js_block %}{% endblock %}

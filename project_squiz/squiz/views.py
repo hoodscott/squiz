@@ -18,8 +18,6 @@ def index(request):
 
         login_form = LoginForm(request.POST)
 
-        #if login_form.is_valid():
-
         # Gather the username and password provided by the user.
         # This information is obtained from the login form.
         username = request.POST['username']
@@ -31,11 +29,8 @@ def index(request):
             if user.is_active:
                 # If the account is valid and active, we can log the user in.
                 # We'll send the user back to the homepage.
-                #try:
                 login(request, user)
-                #except Exception as e:
-                #    print "not logged in"
-                print "logged in"
+
                 return redirect(reverse('index'))
         #else:
            # print login_form.errors
@@ -43,12 +38,9 @@ def index(request):
     else:
         login_form = LoginForm
 
-    # if user is authenticated
-        # add their quizzes to context_dict['my_quizzes']
-        
-        # add top quizzes to context_dict['top_quizzes']
-        
-        # add some more quizzes to context_dict['more_quizzes']
+    quizzes = Quiz.objects.all()
+    #todo, append count of rounds, count of plays
+    context_dict['quizzes'] = quizzes
 
     context_dict['login_form'] = login_form
 
@@ -63,7 +55,8 @@ def about(request):
     
 # user joins quiz
 def join(request):
-	  return HttpResponse('Joined')
+	# todo
+	return HttpResponse('Joined')
 	
 # create quiz
 def create_quiz(request):
