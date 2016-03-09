@@ -75,11 +75,7 @@ class QuizForm(forms.ModelForm):
         fields = ('name', 'creator')
         exclude = []
 
-class LoginForm(forms.ModelForm):
+class LoginForm(forms.Form):
 
     username = forms.CharField(max_length=30)
     password = forms.CharField(max_length=30)
-    
-    class Meta:
-        model = User
-        fields = ('username', 'password')

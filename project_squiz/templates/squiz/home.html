@@ -50,7 +50,7 @@
       <div class="col-md-5">
         <div class="block">
           <h1>Host Login</h1>
-            <form id="upload_form" method="post">
+            <!--form id="upload_form" method="post"  action="{% url 'index' %}">
                 {% csrf_token %}
 
                 {% for field in login_form.visible_fields %}
@@ -61,8 +61,25 @@
 
                     <br>
                 {% endfor %}
-            </form>
-            <button type="submit" > Login </button>
+
+                <button class="btn btn-primary" type="submit" name="submit"  > Login </button>
+            </form-->
+            <form class="form-signin span6" id="login_form" method="post" action="{% url 'index' %}">
+            <h2 class="form-signin-heading">Please sign in</h2>
+            {% csrf_token %}
+            {% if bad_details %}
+                <p class="errorlist">Your username and/or password were incorrect!  Please try again.</p>
+            {% elif disabled_account %}
+                <p class="errorlist">Your account is currently disabled; we can't log you in!</p>
+            {% endif %}
+
+            Username: <input type="text" class="input-block-level" placeholder="Username" name="username" value="" size="50" />
+            <br />
+            Password: <input type="password" class="input-block-level" placeholder="Password" name="password" value="" size="50"/>
+            <br/>
+            <button class="btn btn-primary" type="submit" tabindex='1'>Sign in</button>
+        </form>
+
         </div>
       </div>
     </div>

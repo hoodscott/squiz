@@ -23,6 +23,5 @@ urlpatterns = [
     url(r'^nearby/$', views.nearby, name='nearby'),  #shows pup quizzes and times near to the users location
 
     url(r'^register/$', views.register, name='register'),
-    url(r'^login/$', views.login, name='login'),
-    url(r'^logout/$', views.logout, name='logout'),
+    url(r'^logout/$', views.user_logout, name='logout'),
 ]

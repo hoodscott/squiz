@@ -7,7 +7,7 @@ from django.template import RequestContext
 # import forms and models of this project
 from forms import *
 from models import *
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 
 # view for the homepage
 def index(request):
@@ -18,19 +18,28 @@ def index(request):
 
         login_form = LoginForm(request.POST)
 
-        if login_form.is_valid():
+        #if login_form.is_valid():
 
-            username = login_form.cleaned_data['username']
-            password = login_form.cleanded_data['password']
+        # Gather the username and password provided by the user.
+        # This information is obtained from the login form.
+        username = request.POST['username']
+        password = request.POST['password']
 
-            user = authenticate(username=username, password=password)
+        user = authenticate(username=username, password=password)
 
-            if user: # if user is not none then authentication has been successful
-                if user.is_active:
-                    # If the account is valid and active, we can log the user in.
-                    # We'll send the user back to the homepage.
-                    login(request, user)
-                    return redirect(reverse('home'))
+        if user: # if user is not none then authentication has been successful
+            if user.is_active:
+                # If the account is valid and active, we can log the user in.
+                # We'll send the user back to the homepage.
+                #try:
+                login(request, user)
+                #except Exception as e:
+                #    print "not logged in"
+                print "logged in"
+                return redirect(reverse('index'))
+        #else:
+           # print login_form.errors
+
     else:
         login_form = LoginForm
 
@@ -284,15 +293,13 @@ def register(request):
         user_form = RegisterUserForm()
         host_form = RegisterHostForm()
 
-
     context_dict = {}
     context_dict['user_form'] = user_form
     context_dict['host_form'] = host_form
     context = RequestContext(request)
     return render_to_response('squiz/registration.html', context_dict, context)
-    
-def login(request):
-    return HttpResponse('Login')
-    
-def logout(request):
-    return HttpResponse('Logout')    
+
+
+def user_logout(request):
+    logout(request)
+    return redirect(reverse('index'))
