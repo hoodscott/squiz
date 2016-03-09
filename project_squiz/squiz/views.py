@@ -7,12 +7,31 @@ from django.template import RequestContext
 # import forms and models of this project
 from forms import *
 from models import *
+from django.contrib.auth import authenticate, login
 
 # view for the homepage
 def index(request):
     context_dict = {}
     context = RequestContext(request)
-    
+
+    if request.method == 'POST':
+
+        login_form = LoginForm(request.POST)
+
+        if login_form.is_valid():
+
+            username = login_form.cleaned_data['username']
+            password = login_form.cleanded_data['password']
+
+            user = authenticate(username=username, password=password)
+
+            if user: # if user is not none then authentication has been successful
+                if user.is_active:
+                    # If the account is valid and active, we can log the user in.
+                    # We'll send the user back to the homepage.
+                    login(request, user)
+                    return redirect(reverse('home'))
+
     # if user is authenticated
         # add their quizzes to context_dict['my_quizzes']
         
