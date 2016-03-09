@@ -5,26 +5,45 @@
 {% endblock %}
 
 {% block body_block %}
-<div>
-    
-    {% if round %}
-      <h1>{{ round.name }}</h1>
-      
-      {% for question in questions_in_round %}
-      <div>
-          <h3><a href="{% url 'view_question' question.this_question.id %}">{{ question.this_question.question }}</a></h3>
-          <!-- categories go here? -->
-          <!-- removal button if owner -->
+<div id="full">
+  <div class="container-fluid">
+    <div class="height10"></div>
+    <div class="row">
+      <div class="col-md-8 col-md-offset-2">
+        <div class="block">
+          {% if round %}
+          <div class="height20">
+            <p class="titlefont">{{ round.name }}</p>
+          </div>
+          
+          <!-- round tags go here? -->
+
+          {% for question in questions_in_round %}
+          <div>
+              <h3>Question: <a href="{% url 'view_question' question.this_question.id %}">{{ question.this_question.question }}</a></h3>
+              {{ question.this_question.image }}
+              <h5>Answer: {{ question.this_question.answer }}</h5>
+              <!-- categories go here? -->
+              <!-- removal button if owner -->
+              <!-- add tags to questions here or on question page -->
+          </div>
+          {% empty %}
+          <div><h3>No Questions in this Round</h3></div>
+          {% endfor %}
+          
+          {% if request.user.host == round.creator %}
+          <br>
+          <a class="btn btn-lg btn-primary" href="{% url 'create_question' round.id %}"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>Add Question</a>
+          {% endif %}
+          
+          {% else %}
+          <div class="height20">
+            <p class="titlefont">No Round at this URL</p>
+          </div>
+          {% endif %}
+        </div>
       </div>
-      {% endfor %}
-      
-      {% if request.user.host == round.creator %}
-      <a href="{% url 'create_question' round.id %}">Add Question</a>
-      {% endif %}
-      
-    {% else %}
-      <h2>no round at this url</h2>
-    {% endif %}    
-    
+    </div>
+  </div>
 </div>
 {% endblock %}

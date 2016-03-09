@@ -5,16 +5,28 @@
 {% endblock %}
 
 {% block body_block %}
-<div>
-    
-    {% if question %}
-      <h1>{{ question.question }}</h1>
-      
-      <h4>{{ question.answer }}</h4>
-      
-    {% else %}
-      <h2>no question at this url</h2>
-    {% endif %}    
-    
+<div id="full">
+  <div class="container-fluid">
+    <div class="height10"></div>
+    <div class="row">
+      <div class="col-md-8 col-md-offset-2">
+        <div class="block">
+          {% if question %}          
+          <p class="titlefont">{{ question.question }}</p>          
+          
+          <h5>Answer: {{ question.answer }}</h5>
+          
+          <!-- categories go here? -->
+          <!-- add tags to questions here ? -->
+          
+          {% else %}
+          <div class="height20">
+            <p class="titlefont">No Question at this URL</p>
+          </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 {% endblock %}

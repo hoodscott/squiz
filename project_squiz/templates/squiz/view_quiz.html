@@ -5,26 +5,40 @@
 {% endblock %}
 
 {% block body_block %}
-<div>
-    
-    {% if quiz %}
-      <h1>{{quiz.name}}</h1>
-      
-      {% for round in rounds_in_quiz %}
-      <div>
-          <h3><a href="{% url 'view_round' round.this_round.id %}">{{ round.this_round.name }}</a></h3>
-          <!-- categories go here? -->
-          <!-- removal button if owner -->
+<div id="full">
+  <div class="container-fluid">
+    <div class="height10"></div>
+    <div class="row">
+      <div class="col-md-8 col-md-offset-2">
+        <div class="block">
+          {% if quiz %}
+          <div class="height20">
+            <p class="titlefont">{{ quiz.name }}</p>
+          </div>
+
+          {% for round in rounds_in_quiz %}
+          <div>
+              <h3><a href="{% url 'view_round' round.this_round.id %}">{{ round.this_round.name }}</a></h3>
+              <!-- categories go here? -->
+              <!-- removal button if owner -->
+          </div>
+          {% empty %}
+          <div><h3>No Rounds in this Quiz</h3></div>
+          {% endfor %}
+          
+          {% if request.user.host == quiz.creator %}
+          <br>
+          <a class="btn btn-lg btn-primary" href="{% url 'create_round' quiz.id %}"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>Add Round</a>
+          {% endif %}
+          
+          {% else %}
+          <div class="height20">
+            <p class="titlefont">No Quiz at this URL</p>
+          </div>
+          {% endif %}
+        </div>
       </div>
-      {% endfor %}
-      
-      {% if request.user.host == quiz.creator %}
-      <a href="{% url 'create_round' quiz.id %}">Add Round</a>
-      {% endif %}
-      
-    {% else %}
-      <h2>no quiz at this url</h2>
-    {% endif %}    
-    
+    </div>
+  </div>
 </div>
 {% endblock %}

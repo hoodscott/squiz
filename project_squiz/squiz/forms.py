@@ -46,8 +46,8 @@ class QuestionForm(forms.ModelForm):
                                 label = "Answer",)
     
     # optional image
-    image = forms.ImageField(label="Upload Image",
-                            required=False,)# can be null
+    #todo: implement questions with images
+    #image = forms.ImageField(label="Upload Image", required=False,)# can be null
     
     # creator of the question
     creator = forms.IntegerField(widget = forms.HiddenInput(), required=False)
@@ -60,8 +60,8 @@ class QuestionForm(forms.ModelForm):
     
     class Meta:
         model = Question
-        fields = ('question', 'answer', 'image', 'creator')
-        exclude = []
+        fields = ('question', 'answer', 'creator')
+        exclude = ['image']
         
         
 class RoundForm(forms.ModelForm):
