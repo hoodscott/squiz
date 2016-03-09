@@ -85,11 +85,7 @@ input, select, textarea {
 	font-size: 50px;
 }
 
-<<<<<<< HEAD
 .table-striped>tbody>tr:nth-of-type(odd){
     background-color: rgba(20, 20, 19, 0.59);
 }
-=======
-
->>>>>>> 67a89c1631766d14f72bd937ace8027cba12ad09
 
