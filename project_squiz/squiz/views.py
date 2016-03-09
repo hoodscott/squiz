@@ -239,7 +239,16 @@ def quiz(request, session_id):
 	
 # shows pup quizzes and times near to the users location
 def nearby(request):
-    return HttpResponse('Nearby')
+    context_dict = {}
+    context = RequestContext(request)
+    
+    try:
+      context_dict['venues'] = Venue.objects.filter()
+    except Venue.DoesNotExist:
+      # no venue at this url
+      pass
+      
+    return render_to_response('squiz/nearby.html', context_dict, context)
 
 def register(request):
     # A HTTP POST?
@@ -276,3 +285,9 @@ def register(request):
     context_dict['host_form'] = host_form
     context = RequestContext(request)
     return render_to_response('squiz/registration.html', context_dict, context)
+    
+def login(request):
+    return HttpResponse('Login')
+    
+def logout(request):
+    return HttpResponse('Logout')    

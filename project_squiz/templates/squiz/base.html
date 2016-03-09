@@ -44,13 +44,23 @@
             <li>
               <a href="{% url 'about' %}">About</a>
             </li>
+            {% if user.is_authenticated %}
             <li>
               <a href="{% url 'create_quiz' %}">Create Quiz</a>
             </li>
+            {% else %}
             <li>
               <a href="{% url 'register' %}">Register to Host</a>
             </li>
+            {% endif %}           
           </ul>
+          {% if user.is_authenticated %}
+          <ul class="nav navbar-nav pull-right">
+            <li>
+              <a href="{% url 'logout' %}">Logout</a>
+            </li>
+          </ul>
+          {% endif %}
         </div>
         <!-- /.navbar-collapse -->
       </div>

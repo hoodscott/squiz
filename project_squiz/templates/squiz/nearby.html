@@ -1,0 +1,21 @@
+{% extends 'squiz/base.html' %}
+
+{% block title_block %}
+    nearby
+{% endblock %}
+
+{% block body_block %}
+<div>
+    
+    {% for venue in venues %}
+    <h3> {{ venue.name }} </h3>
+    <ul>
+      <li>{{ venue.lat }}</li>
+      <li>{{ venue.lon }}</li>
+      <li>{{ venue.host }}</li>
+      <li>{{ venue.time }}</li>
+    </ul>
+    {% endfor %}
+    
+</div>
+{% endblock %}

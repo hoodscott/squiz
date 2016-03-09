@@ -1,42 +1,59 @@
 {% extends 'squiz/base.html' %}
-
 {% block title_block %}home{% endblock %}
 
 {% block body_block %}
 {% if user.is_authenticated %}
 <div class="container-fluid">
-	<div class="row">
-		<div class="col-md-12 parent">
-			<div class="block">
-			  <h2>Quizzes<h2>
-			  <!-- insert table here -->
-			  <a class="btn btn-default" href="{% url 'create_quiz' %}">New Quiz</a>
-			  <a class="btn btn-info" href="{% url 'create_quiz' %}">New Quiz</a>
-			  <a class="btn btn-warning" href="{% url 'create_quiz' %}">New Quiz</a>
-			  <a class="btn btn-primary" href="{% url 'create_quiz' %}">New Quiz</a>
-			  <a class="btn btn-danger" href="{% url 'create_quiz' %}">New Quiz</a>
-			  <a class="btn btn-success" href="{% url 'create_quiz' %}">New Quiz</a>
-			</div>
-		</div>
-	</div>
+  <div class="row">
+    <div class="col-md-12 parent">
+      <div class="block">
+        <h2>Quizzes<h2>
+        <!-- insert table here -->
+        <a class="btn btn-default" href="{% url 'create_quiz' %}">New Quiz</a>
+        <a class="btn btn-info" href="{% url 'create_quiz' %}">New Quiz</a>
+        <a class="btn btn-warning" href="{% url 'create_quiz' %}">New Quiz</a>
+        <a class="btn btn-primary" href="{% url 'create_quiz' %}">New Quiz</a>
+        <a class="btn btn-danger" href="{% url 'create_quiz' %}">New Quiz</a>
+        <a class="btn btn-success" href="{% url 'create_quiz' %}">New Quiz</a>
+      </div>
+    </div>
+  </div>
 </div>
 {% else %}
-<div class="container-fluid">
-	<div class="row">
-		<div class="col-md-5 col-md-offset-1 parent">
-			<div class="block">
-				<h2>Join Quiz</h2>
-				<span class="glyphicon glyphicon-map-marker" aria-hidden="true" style="font-size: 30em;color:rgba(100,55,100,0.8);"></span>
-
-			</div>
-		</div>
-
-		<div class="col-md-5 parent">
-			<div class="block">
-				<h2>Host Login</h2>
-			</div>
-		</div>
-	</div>
+<!-- Put your page content here! -->
+<div id="full">
+  <div class="container-fluid">
+    <div class="height10"></div>
+    <div class="row">
+      <!-- Left Pane -->
+      <div class="col-md-5 col-md-offset-1">
+        <div class="block">
+          <div class="height20">
+            <p class="titlefont">_|oin C2uiz</p>
+          </div>
+          <div class="height80">
+            <a href="{% url 'join' %}">
+            <button id="join_button" type="button"  class="btn btn-warning btn-lg home-buttons icon">
+            <span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span> <br> _|oin!
+            </button>
+            </a>
+            <a href="{% url 'nearby' %}">
+            <button id="nearby_button" type="button" class="btn btn-danger btn-lg home-buttons icon">
+            <span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span> <br> |\|ear Me
+            </button>
+            </a>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Right Pane -->
+      <div class="col-md-5">
+        <div class="block">
+          <h1>Host Login</h1>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 {% endif %}
 {% endblock %}
