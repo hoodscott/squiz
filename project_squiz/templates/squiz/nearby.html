@@ -5,21 +5,38 @@
 {% endblock %}
 
 {% block body_block %}
-<div>
-    {% if venue %}
-    {% for venue in venues %}
-    <h3> {{ venue.name }} </h3>
-    <ul>
-      <li>{{ venue.lat }}</li>
-      <li>{{ venue.lon }}</li>
-      <li>{{ venue.host }}</li>
-      <li>{{ venue.time }}</li>
-    </ul>
-    {% endfor %}
+<div id="full">
+  <div class="container-fluid">
+    <div class="height10"></div>
+    <div class="row">
+      <!-- Left Pane -->
+      <div class="col-md-10 col-md-offset-1">
+        <div class="block">
+          <div class="height20">
+            <p class="titlefont">Near By</p>
+          </div>
+          <div class="height80">
+            
+		    {% if venues %}
+		    {% for venue in venues %}
+		    <h3> {{ venue.name }} </h3>
+		    <ul>
+		      <li>{{ venue.lat }}</li>
+		      <li>{{ venue.lon }}</li>
+		      <li>{{ venue.host }}</li>
+		      <li>{{ venue.time }}</li>
+		    </ul>
+		    {% endfor %}
 
-    {% else %}
-    <h3> There are no venues to display </h3>
-    {% end if %}
-    
+		    {% else %}
+		    <h3> There are no venues to display </h3>
+		    {% endif %}
+			
+			
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 {% endblock %}

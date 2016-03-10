@@ -67,11 +67,23 @@
             <span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span> <br> <p class="bigbuttontext">Join!</p>
             </button>
             </a>
-            <a href="{#% url 'nearby' %#}">
-            <button id="nearby_button" type="button" class="btn btn-danger btn-lg home-buttons icon">
+            <button id="nearby_button" type="button" class="btn btn-danger btn-lg home-buttons icon" onclick="getLocation()">
             <span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span> <br> <p class="bigbuttontext">Near Me</p>
             </button>
-            </a>
+			
+			<script>
+			function getLocation() {
+			    if (navigator.geolocation) {
+			        navigator.geolocation.getCurrentPosition(redirect);
+			    } else { 
+			        // Inform user
+			    }
+			}
+
+			function redirect(position) {
+			    window.location.href = "{% url 'nearby' %}?lat=" + position.coords.latitude + "&lon=" + position.coords.longitude;
+			}
+			</script>
           </div>
         </div>
       </div>
