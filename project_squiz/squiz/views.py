@@ -256,9 +256,9 @@ def get_question(request):
   quiz_inst = QuizInstance.objects.get(id = request.GET['quizID'])
   
   current_q = quiz_inst.current_question
-
+  print current_q
   if request.GET['question'] == quiz_inst.current_question:
-	    pass
+      return
   else:
       # get quiz
       quiz = quiz_inst.quiz
