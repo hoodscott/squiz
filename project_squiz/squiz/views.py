@@ -3,11 +3,15 @@ from django.shortcuts import render_to_response, redirect, get_object_or_404
 from django.core.urlresolvers import reverse
 from django.http import HttpResponse
 from django.template import RequestContext
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
+
+import json
 
 # import forms and models of this project
 from forms import *
 from models import *
-from django.contrib.auth import authenticate, login, logout
+
 
 # view for the homepage
 def index(request):
@@ -62,6 +66,7 @@ def join(request):
 	return HttpResponse('Joined')
 	
 # create quiz
+@login_required
 def create_quiz(request):
     
     # A HTTP POST?
@@ -96,6 +101,7 @@ def create_quiz(request):
     return render_to_response('squiz/create_quiz.html', context_dict, context)
     
 # create round
+@login_required
 def create_round(request, quiz_id=None):
 
     # create dictionary to pass data to templates
@@ -148,6 +154,7 @@ def create_round(request, quiz_id=None):
     return render_to_response('squiz/create_round.html', context_dict, context)
     
 # create question
+@login_required
 def create_question(request, round_id=None):
 
     # create dictionary to pass data to templates
@@ -198,6 +205,7 @@ def create_question(request, round_id=None):
     return render_to_response('squiz/create_question.html', context_dict, context)
 
 # view a quiz
+@login_required
 def view_quiz(request, quiz_id):
     context_dict = {}
     context = RequestContext(request)
@@ -213,6 +221,7 @@ def view_quiz(request, quiz_id):
     return render_to_response('squiz/view_quiz.html', context_dict, context)
     
 # view a round
+@login_required
 def view_round(request, round_id):
     context_dict = {}
     context = RequestContext(request)
@@ -228,6 +237,7 @@ def view_round(request, round_id):
     return render_to_response('squiz/view_round.html', context_dict, context)
     
 # view a question
+@login_required
 def view_question(request, question_id):
     context_dict = {}
     context = RequestContext(request)
@@ -244,37 +254,85 @@ def view_question(request, question_id):
 
     
 # display scoreboard/ questions (and answers to host)
-
 def play(request, session_id):
 	context_dict = {}
-	return render_to_response('squiz/play.html', context_dict)
+	context = RequestContext(request)
+	context_dict['instance'] = get_object_or_404(QuizInstance, id = session_id)
+	return render_to_response('squiz/play.html', context_dict, context)
 
 # return current question
 def get_question(request):
-  context = RequestContext(request)
 
-  quiz_inst = QuizInstance.objects.get(id = request.GET['quizID'])
-  
+  # get current question session and current question number
+  quiz_inst = QuizInstance.objects.get(id = request.GET['quizID'])  
   current_q = quiz_inst.current_question
 
-  if request.GET['question'] == quiz_inst.current_question:
-	    pass
+  # if the question has updated, then return the new question
+  if request.GET['question'] == current_q:
+      # return empty response if there has been no update
+	    return HttpResponse()
   else:
       # get quiz
       quiz = quiz_inst.quiz
 
-      #print quiz
+      # get round from roundinquiz
+      this_round = RoundInQuiz.objects.filter(this_quiz=quiz).get(number=current_q.split('')[0]).this_round
 
-      # get round
-      this_round = RoundInQuiz.objects.filter(this_quiz=quiz).get(number=current_q.split(',')[0]).this_round
+      # get question from questioninround
+      this_question = QuestionInRound.objects.filter(this_round=this_round).get(number=current_q.split('q')[1]).this_question
+      
+      
+      data = {'question': this_question.question, 'current_q':current_q}
+      #return this_question
+      return HttpResponse(json.dumps(data))
 
-      #print this_round
+@login_required
+def advance_question(request, instance_id):
+    context = RequestContext(request)
+    context_dict = {}
+    
+    quiz_inst = QuizInstance.objects.get(id = instance_id)
+    
+    # if quiz is over, we cannto do anything
+    if quiz_inst.state == 'over':
+        return HttpResponse()
+  
+    current_q = quiz_inst.current_question    
+    
+    # get quiz
+    quiz = quiz_inst.quiz
 
-      # get question
-      this_question = QuestionInRound.objects.filter(this_round=this_round).get(number=current_q.split(',')[1]).this_question
+    # get round from roundinquiz
+    try:
+        this_round = RoundInQuiz.objects.filter(this_quiz=quiz).get(number=current_q.split('q')[0]).this_round
+    except RoundInQuiz.DoesNotExist:
+        # we have reached the end of the quiz
+        print "in here"
+        quiz_inst.state = 'over'
+        quiz_inst.save()
+        return HttpResponse()        
+    
+    # split round and question num from unicode string
+    current_questionnum = int(current_q.split('q')[1])
+    current_roundnum = int(current_q.split('q')[0])
+    
+    # check if there is another question in this round
+    try:
+        
+        this_question = QuestionInRound.objects.filter(this_round=this_round).get(number=current_questionnum+1)
+        # if it exists, increment questionnumber
+        quiz_inst.current_question = str(current_roundnum)+'q'+str(current_questionnum+1)
+    except QuestionInRound.DoesNotExist:
+        # there is not another question in the round, so set end of round case
+        
+        quiz_inst.current_question = str(current_roundnum+1)+'q0'
+    
+    # save new pointer in this instance
+    quiz_inst.save()
+    
+    # return empty response
+    return HttpResponse()
 
-      #print this_question
-      return HttpResponse(this_question)
 	
 # shows pup quizzes and times near to the users location
 def nearby(request):
@@ -335,12 +393,12 @@ def register(request):
     context = RequestContext(request)
     return render_to_response('squiz/registration.html', context_dict, context)
 
-
+@login_required
 def user_logout(request):
     logout(request)
     return redirect(reverse('index'))
     
-
+@login_required
 def start(request, quiz_id):
     context_dict = {}
     context = RequestContext(request)
@@ -352,8 +410,10 @@ def start(request, quiz_id):
     this_host = request.user.host
     
     # create a new quiz instance
-    quiz_inst = QuizInstance(quiz = this_quiz, host = this_host, current_question = '1,1', state='joinable')
+    quiz_inst = QuizInstance(quiz = this_quiz, host = this_host, current_question = '1,0', state='joinable')
     quiz_inst.save()
+    
+    print quiz_inst.current_question
     
     # redirect user to the play page
     return redirect(reverse('play', args=[quiz_inst.id]))

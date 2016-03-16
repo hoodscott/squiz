@@ -7,11 +7,23 @@
   <div class="container-fluid">
     <div class="height10"></div>
     <div class="row">
-      <div class="col-md-12 parent">
-	<!-- Content here -->
+      <!-- Left Pane -->
+      <div class="col-md-10 col-md-offset-1">
+        <div class="block">
+          <div class="height20">
+            <p class="titlefont">Quiz</p>
+          </div>
+          <div class="height80">
+					<p id="demo"></p>
+					<p id="question">...</p> Question
+					{% if user.is_authenticated %}
+					<button href="" id="advance" class="btn-primary">Proceed</button>
+					{% endif %}
+            
+          </div>
+        </div>
       </div>
     </div>
-  </div>
   </div>
 </div>
 {% else %}
@@ -28,7 +40,10 @@
           </div>
           <div class="height80">
 					<p id="demo"></p>
-					<p id="question">...</p> Question
+					
+					{% if user.is_authenticated %}
+					<a href="" id="advance" class="btn-primary">Proceed</a>
+					{% endif %}
             
           </div>
         </div>
@@ -44,27 +59,34 @@
 <script>
 var myVar = setInterval(updateQuestion, 5000);
 
+var quizID = {{ instance.id }};
+var question = "{{ instance.question_number }}";
+console.log(question);
+
 function updateQuestion() {
     var d = new Date();
     $("#demo").html(d.toLocaleTimeString());
     
-    console.log("happening")
-    
-		
-		var quizID = 1;
-		var question = "1,1";
-		var i=0;
-    $.get('/get_question/', {quizID: quizID, question: question}, function(data){
+    $.get('/get_question/', {quizID: quizID, question: question}, function(data){				
+				
 				if (data){
-				$("#question").html(data);
-				console.log('inside')
-          // $('#likes').hide();
+				    data = JSON.parse(data);
+				    $("#question").html(data["question"]);
+				    question = Strin(data["current_q"]);
         }
           
     });
 
 
 }
+
+$('#advance').click(function(){
+    jQuery.get( '{% url 'adv_question' instance.id %}' );
+    updateQuestion();
+    console.log('advance');
+    alert('here');
+});
+
 </script>
 
 {% endblock%}

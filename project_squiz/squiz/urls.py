@@ -24,6 +24,7 @@ urlpatterns = [
     url(r'^nearby/$', views.nearby, name='nearby'),  #shows pup quizzes and times near to the users location
     
     url(r'^get_question/$', views.get_question, name='get_question'),#ajax call to get the current question
+    url(r'^advance_question/(?P<instance_id>\w+)/$', views.advance_question, name='adv_question'),#ajax call to advance the question number
 
     url(r'^register/$', views.register, name='register'),
     url(r'^logout/$', views.user_logout, name='logout'),
