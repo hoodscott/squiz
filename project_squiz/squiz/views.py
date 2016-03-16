@@ -251,9 +251,16 @@ def quiz(request, session_id):
 def nearby(request):
     context_dict = {}
     context = RequestContext(request)
+    lat = float(request.GET.get('lat'))
+    lon = float(request.GET.get('lon'))
     
+    max_lat = lat + 0.001
+    min_lat = lat - 0.001
+    max_lon = lon + 0.001
+    min_lon = lon - 0.001
+
     try:
-      context_dict['venues'] = Venue.objects.filter()
+      context_dict['venues'] = Venue.objects.filter(lat__gt=min_lat, lat__lt=max_lat, lon__gt=min_lon, lon__lt=max_lon)
     except Venue.DoesNotExist:
       # no venue at this url
       pass
