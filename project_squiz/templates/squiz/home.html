@@ -31,7 +31,7 @@
                         <td>todo</td>
                         <td>todo</td>
                         <td><a href="{% url 'view_quiz' quiz.id %}"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span></a></td>
-                        <td><a href=""><span class="glyphicon glyphicon-play" aria-hidden="true"></span></a></td>
+                        <td><a href="{% url 'start' quiz.id %}"><span class="glyphicon glyphicon-play" aria-hidden="true"></span></a></td>
                     </tr>
                     {% endfor %}
                 </tbody>

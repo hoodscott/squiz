@@ -1,0 +1,63 @@
+{% extends 'squiz/base.html' %}
+{% block title_block %}home{% endblock %}
+
+{% block body_block %}
+{% if user.is_authenticated %}
+<div id="full">
+  <div class="container-fluid">
+    <div class="height10"></div>
+    <div class="row">
+      <div class="col-md-12 parent">
+	<!-- Content here -->
+      </div>
+    </div>
+  </div>
+  </div>
+</div>
+{% else %}
+<!-- Put your page content here! -->
+<div id="full">
+  <div class="container-fluid">
+    <div class="height10"></div>
+    <div class="row">
+      <!-- Left Pane -->
+      <div class="col-md-10 col-md-offset-1">
+        <div class="block">
+          <div class="height20">
+            <p class="titlefont">Quiz</p>
+          </div>
+          <div class="height80">
+					<p id="demo"></p>
+					<strong id="question">...</strong> Question
+            
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endif %}
+{% endblock %}
+
+{% block js_block %}
+
+<script>
+var myVar = setInterval(updateQuestion, 5000);
+
+function updateQuestion() {
+    var d = new Date();
+    document.getElementById("demo").innerHTML = d.toLocaleTimeString();
+		
+		var sessionID = 1;
+		var question = "1,1";
+    $.get('/squiz/get_question/', {sessionID: sessionID, question: question}, function(data){
+				if data:
+					$('#question').html(data);
+          // $('#likes').hide();
+    });
+
+
+}
+</script>
+
+{% endblock%}

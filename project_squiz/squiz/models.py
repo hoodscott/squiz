@@ -103,6 +103,17 @@ class QuizInstance(models.Model):
     # link to host
     host = models.ForeignKey(Host)
     
+    # joinable - 0, in progress 1, over - 2
+    PROGRESS_CHOICES = (
+        ('joinable', 'joinable'),
+        ('inprogress', 'inprogress'),
+        ('over', 'over'),
+    )
+    state = models.CharField(max_length=32, choices=PROGRESS_CHOICES)    
+    
+    # string to hold current quesion and round, can be used to poll if next question in ajax
+    current_question = models.CharField(max_length=128)
+    
     def __unicode__(self):
         return "%s hosting %s" % (self.host, self.quiz)
 
