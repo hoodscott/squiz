@@ -1,34 +1,7 @@
 {% extends 'squiz/base.html' %}
-{% block title_block %}home{% endblock %}
+{% block title_block %}play{% endblock %}
 
 {% block body_block %}
-{% if user.is_authenticated %}
-<div id="full">
-  <div class="container-fluid">
-    <div class="height10"></div>
-    <div class="row">
-      <!-- Left Pane -->
-      <div class="col-md-10 col-md-offset-1">
-        <div class="block">
-          <div class="height20">
-            <p class="titlefont">Quiz</p>
-          </div>
-          <div class="height80">
-					<p id="demo"></p>
-					<p id="question">...</p> Question
-					{% if user.is_authenticated %}
-					<button href="" id="advance" class="btn-primary">Proceed</button>
-					{% endif %}
-					<div id="scoreboard"></div>
-            
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-{% else %}
-<!-- Put your page content here! -->
 <div id="full">
   <div class="container-fluid">
     <div class="height10"></div>
@@ -37,7 +10,7 @@
       <div class="col-md-5 col-md-offset-1">
         <div class="block">
 					<div class="height80">
-						<p class="questionfont">Questions hkalfhd asdhflasdf asdhflsadfd f sd fsdfh?</p>
+						<p class="questionfont" id="question"></p>
 					</div>
 					<div class="height20">
 						<div class="row">
@@ -56,84 +29,62 @@
       <div class="col-md-5">
         <div class="block">
           <div class="height20">
-            <p class="titlefont">Host Login</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-
-
-						
-
-<!-- Put your page content here! -->
-<div id="full">
-  <div class="container-fluid">
-    <div class="height10"></div>
-    <div class="row">
-      <!-- Left Pane -->
-      <div class="col-md-10 col-md-offset-1">
-        <div class="block">
-          <div class="height20">
-            <p class="titlefont">Quiz</p>
+            <p class="titlefont">ScoreBoard</p>
           </div>
           <div class="height80">
-					<p id="demo"></p>
-					
-					{% if user.is_authenticated %}
-					<a href="" id="advance" class="btn-primary">Proceed</a>
-					{% endif %}
-            
+  					<div id="scoreboard"></div>
+  					<table>
+  					  <thead>
+  					  <tr>
+  					    <th>Names</th>
+  					    <th>Score</th>
+  					  </tr>
+  					  </thead>
+  					  <tbody id="tablebody">
+  					  </tbody>
+  					</table>
+  					{% if user.host == instance.host %}
+  					  <button href="" id="advance" class="btn-primary">Next Question</button>
+  					{% endif %}
           </div>
         </div>
       </div>
     </div>
   </div>
 </div>
-{% endif %}
 {% endblock %}
 
 {% block js_block %}
-
 <script>
-var myVar = setInterval(updateQuestion, 3000);
+var myVar = setInterval(updateQuestion, 1000);
 
 var quizID = {{ instance.id }};
-var question = "{{ instance.current_question }}";
-console.log(question);
+var question = "0q-1";
 
 function updateQuestion() {
     var d = new Date();
     $("#demo").html(d.toLocaleTimeString());
     
-    $.get('/get_question/', {quizID: quizID, question: question}, function(data){				
+    $.get('/get_question/', {quizID: quizID, question: question}, function(data){
 				
 				if (data){
 				    data = JSON.parse(data);
 				    if ("question" in data){
 				      $("#question").html(data["question"]);
+				      console.log("question")
 				    }
 				    if ("current_q" in data){
   				    question = String(data["current_q"]);
   				  }
             if ("scoreboard" in data){
-              console.log(data["scoreboard"]);
               scoreboard = JSON.parse(data["scoreboard"])
               var arrayLength = scoreboard.length;
-              var table
+              var table = ""
               for (var i = 0; i < arrayLength; i++) {
-                  console.log(scoreboard[i]["fields"]["name"])
-                  console.log(scoreboard[i]["fields"]["score"])
-                  table
-                  //Do something
+                  table += "<tr><td>"+scoreboard[i]["fields"]["name"]+"</td>"
+                  table += "<td>"+scoreboard[i]["fields"]["score"]+"</td></tr>"
               }
-              //for (team in data["scoreboard"]){
-              //  console.log(team);
-              //}
-              //$('#scoreboard').html(data["scoreboard"]);
+              $('#tablebody').html(table)
             }
         }
           

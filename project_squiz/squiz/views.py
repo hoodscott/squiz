@@ -156,8 +156,6 @@ def create_round(request, quiz_id=None):
             # save resource
             this_round.save()
             
-            print "saved"
-            
             if quiz_id != None:
                 # add this new round to the quiz
                 round_num = RoundInQuiz.objects.filter(this_quiz = this_quiz).count()
@@ -293,24 +291,26 @@ def play(request, session_id):
 def get_question(request):
 
   # get current question session and current question number
-  quiz_inst = QuizInstance.objects.get(id = request.GET['quizID'])  
+  quiz_inst = QuizInstance.objects.get(id = request.GET['quizID'])
   current_q = quiz_inst.current_question
   
-  # if the quiz is over, get the scoreboard (ordered by score)
+  # if the quiz is over, return "something" to end the game
   if quiz_inst.state == 'over':
       print "over"
-      context_dict = {}
-      context = RequestContext(request)
-      cereal = serializers.serialize('json', Player.objects.filter(quiz_instance = quiz_inst).order_by('score'))
-      return HttpResponse(json.dumps({'scoreboard':cereal}))
+  
+  # get scoreboard
+  cereal = serializers.serialize('json', Player.objects.filter(quiz_instance = quiz_inst).order_by('score'))
+  dump = {'scoreboard':cereal}
 
   # if the question has updated, then return the new question
   if request.GET['question'] == current_q:
-      # return empty response if there has been no update
-	    return HttpResponse()
+      #return data as a json dump
+	    return HttpResponse(json.dumps(dump))
   else:
       # get quiz
       quiz = quiz_inst.quiz
+      
+      print "in the thing"
 
       # get round from roundinquiz
       this_round = RoundInQuiz.objects.filter(this_quiz=quiz).get(number=current_q.split('q')[0]).this_round
@@ -318,10 +318,11 @@ def get_question(request):
       # get question from questioninround
       this_question = QuestionInRound.objects.filter(this_round=this_round).get(number=current_q.split('q')[1]).this_question
       
+      dump['question'] = this_question.question
+      dump['current_q'] = current_q
       
-      data = {'question': this_question.question, 'current_q':current_q}
-      #return this_question
-      return HttpResponse(json.dumps(data))
+      #return data as a json dump
+      return HttpResponse(json.dumps(dump))
 
 @login_required
 def advance_question(request, instance_id):
@@ -334,7 +335,7 @@ def advance_question(request, instance_id):
     if quiz_inst.state == 'over':
         return HttpResponse()
   
-    current_q = quiz_inst.current_question    
+    current_q = quiz_inst.current_question
     
     # get quiz
     quiz = quiz_inst.quiz
@@ -347,7 +348,7 @@ def advance_question(request, instance_id):
         print "in here"
         quiz_inst.state = 'over'
         quiz_inst.save()
-        return HttpResponse()        
+        return HttpResponse()
     
     # split round and question num from unicode string
     current_questionnum = int(current_q.split('q')[1])
@@ -361,7 +362,6 @@ def advance_question(request, instance_id):
         quiz_inst.current_question = str(current_roundnum)+'q'+str(current_questionnum+1)
     except QuestionInRound.DoesNotExist:
         # there is not another question in the round, so set end of round case
-        
         quiz_inst.current_question = str(current_roundnum+1)+'q0'
     
     # save new pointer in this instance
@@ -443,11 +443,14 @@ def start(request, quiz_id):
     # get the quiz object, 404 if not there
     this_quiz = get_object_or_404(Quiz, id = quiz_id)
     
+    # check there are rounds
+    # check there are no emtpty rounds
+    
     # get the current user
     this_host = request.user.host
     
     # create a new quiz instance
-    quiz_inst = QuizInstance(quiz = this_quiz, host = this_host, current_question = '0q-1', state='joinable')
+    quiz_inst = QuizInstance(quiz = this_quiz, host = this_host, current_question = '0q0', state='joinable')
     quiz_inst.save()
     
     print quiz_inst.current_question
