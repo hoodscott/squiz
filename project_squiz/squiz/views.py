@@ -245,7 +245,12 @@ def view_question(request, question_id):
     
 # display scoreboard/ questions (and answers to host)
 def quiz(request, session_id):
-	  return HttpResponse('Quiz')
+
+    # get the quiz object, 404 if not there
+    quiz_inst = get_object_or_404(QuizInstance, id = session_id)
+    
+    #logic goes here    
+    return HttpResponse(name)
 	
 # shows pup quizzes and times near to the users location
 def nearby(request):
@@ -310,3 +315,26 @@ def register(request):
 def user_logout(request):
     logout(request)
     return redirect(reverse('index'))
+    
+
+def start(request, quiz_id):
+    context_dict = {}
+    context = RequestContext(request)
+    
+    # get the quiz object, 404 if not there
+    this_quiz = get_object_or_404(Quiz, id = quiz_id)
+    
+    # get the current user
+    this_host = request.user.host
+    
+    # create a new quiz instance
+    quiz_inst = QuizInstance(quiz = this_quiz, host = this_host, current_question = '1,1', state='joinable')
+    quiz_inst.save()
+    
+    # redirect user to the play page
+    return redirect(reverse('play', args=[quiz_inst.id]))
+    
+
+
+
+

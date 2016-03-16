@@ -18,7 +18,8 @@ urlpatterns = [
     url(r'^question/(?P<question_id>\w+)$', views.view_question, name='view_question'),# view question
     
     url(r'^join/$', views.join, name='join'),#user joins quiz
-    url(r'^play/(?P<session_id>\w+)$', views.quiz, name='quiz'),# display scoreboard/ questions (and answers to host)
+    url(r'^play/(?P<session_id>\w+)$', views.quiz, name='play'),# display scoreboard/ questions (and answers to host)
+    url(r'^start/(?P<quiz_id>\w+)$', views.start, name='start'),# start a quiz, create a quiz instance
     
     url(r'^nearby/$', views.nearby, name='nearby'),  #shows pup quizzes and times near to the users location
 
