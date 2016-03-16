@@ -33,6 +33,47 @@
     <div class="height10"></div>
     <div class="row">
       <!-- Left Pane -->
+      <div class="col-md-5 col-md-offset-1">
+        <div class="block">
+					<div class="height80">
+						<p class="questionfont">Questions hkalfhd asdhflasdf asdhflsadfd f sd fsdfh?</p>
+					</div>
+					<div class="height20">
+						<div class="row">
+							<div class="col-xs-9">
+								<textarea class="form-control" cols="10" id="comment"></textarea>
+							</div>
+							<div class="col-xs-3">
+								<button type="button" class="btn btn-primary col-xs-12">Primary</button>
+							</div>
+						</div>
+					</div>
+        </div>
+      </div>
+      
+      <!-- Right Pane -->
+      <div class="col-md-5">
+        <div class="block">
+          <div class="height20">
+            <p class="titlefont">Host Login</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+						
+
+<!-- Put your page content here! -->
+<div id="full">
+  <div class="container-fluid">
+    <div class="height10"></div>
+    <div class="row">
+      <!-- Left Pane -->
       <div class="col-md-10 col-md-offset-1">
         <div class="block">
           <div class="height20">
@@ -57,7 +98,7 @@
 {% block js_block %}
 
 <script>
-var myVar = setInterval(updateQuestion, 5000);
+var myVar = setInterval(updateQuestion, 1000);
 
 var quizID = {{ instance.id }};
 var question = "{{ instance.question_number }}";
@@ -76,8 +117,6 @@ function updateQuestion() {
         }
           
     });
-
-
 }
 
 $('#advance').click(function(){
