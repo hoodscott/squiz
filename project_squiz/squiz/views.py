@@ -244,8 +244,17 @@ def view_question(request, question_id):
 
     
 # display scoreboard/ questions (and answers to host)
-def quiz(request, session_id):
-	  return HttpResponse('Quiz')
+def play(request, session_id):
+	context_dict = {}
+	return render_to_response('squiz/play.html', context_dict)
+
+# return current question
+def get_question(request):
+	quiz_inst = get_object_or_404(QuizInstance, id = request.GET.get('sessionID'))
+	if request.GET.get('question') == quiz_inst.current_question:
+		return HTTPResponse(question)
+	else:
+		return
 	
 # shows pup quizzes and times near to the users location
 def nearby(request):
