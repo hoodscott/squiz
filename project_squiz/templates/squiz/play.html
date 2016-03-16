@@ -28,7 +28,7 @@
           </div>
           <div class="height80">
 					<p id="demo"></p>
-					<strong id="question">...</strong> Question
+					<p id="question">...</p> Question
             
           </div>
         </div>
@@ -46,14 +46,21 @@ var myVar = setInterval(updateQuestion, 5000);
 
 function updateQuestion() {
     var d = new Date();
-    document.getElementById("demo").innerHTML = d.toLocaleTimeString();
+    $("#demo").html(d.toLocaleTimeString());
+    
+    console.log("happening")
+    
 		
-		var sessionID = 1;
+		var quizID = 1;
 		var question = "1,1";
-    $.get('/squiz/get_question/', {sessionID: sessionID, question: question}, function(data){
-				if data:
-					$('#question').html(data);
+		var i=0;
+    $.get('/get_question/', {quizID: quizID, question: question}, function(data){
+				if (data){
+				$("#question").html(data);
+				console.log('inside')
           // $('#likes').hide();
+        }
+          
     });
 
 

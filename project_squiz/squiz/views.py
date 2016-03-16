@@ -251,11 +251,30 @@ def play(request, session_id):
 
 # return current question
 def get_question(request):
-	quiz_inst = get_object_or_404(QuizInstance, id = request.GET.get('sessionID'))
-	if request.GET.get('question') == quiz_inst.current_question:
-		return HTTPResponse(question)
-	else:
-		return
+  context = RequestContext(request)
+
+  quiz_inst = QuizInstance.objects.get(id = request.GET['quizID'])
+  
+  current_q = quiz_inst.current_question
+
+  if request.GET['question'] == quiz_inst.current_question:
+	    pass
+  else:
+      # get quiz
+      quiz = quiz_inst.quiz
+
+      #print quiz
+
+      # get round
+      this_round = RoundInQuiz.objects.filter(this_quiz=quiz).get(number=current_q.split(',')[0]).this_round
+
+      #print this_round
+
+      # get question
+      this_question = QuestionInRound.objects.filter(this_round=this_round).get(number=current_q.split(',')[1]).this_question
+
+      #print this_question
+      return HttpResponse(this_question)
 	
 # shows pup quizzes and times near to the users location
 def nearby(request):
