@@ -42,7 +42,7 @@
 {% block js_block %}
 
 <script>
-var myVar = setInterval(updateQuestion, 5000);
+var myVar = setInterval(updateQuestion, 1000);
 
 function updateQuestion() {
     var d = new Date();
@@ -50,13 +50,12 @@ function updateQuestion() {
 		
 		var sessionID = 1;
 		var question = "1,1";
-    $.get('/squiz/get_question/', {sessionID: sessionID, question: question}, function(data){
-				if data:
+   
+		$.get('/get_question/', {sessionID: sessionID, question: question}, function(data){
+				//if data:
 					$('#question').html(data);
           // $('#likes').hide();
     });
-
-
 }
 </script>
 

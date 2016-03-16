@@ -251,8 +251,8 @@ def play(request, session_id):
 
 # return current question
 def get_question(request):
-	quiz_inst = get_object_or_404(QuizInstance, id = request.GET.get('sessionID'))
-	if request.GET.get('question') == quiz_inst.current_question:
+	quiz_inst = get_object_or_404(QuizInstance, id = request.GET['sessionID'])
+	if request.GET['question'] == quiz_inst.current_question:
 		return HTTPResponse(question)
 	else:
 		return
