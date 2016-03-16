@@ -19,6 +19,7 @@
 					{% if user.is_authenticated %}
 					<button href="" id="advance" class="btn-primary">Proceed</button>
 					{% endif %}
+					<div id="scoreboard"></div>
             
           </div>
         </div>
@@ -112,9 +113,28 @@ function updateQuestion() {
 				
 				if (data){
 				    data = JSON.parse(data);
-				    $("#question").html(data["question"]);
-				    question = String(data["current_q"]);
-				    console.log(question)
+				    if ("question" in data){
+				      $("#question").html(data["question"]);
+				    }
+				    if ("current_q" in data){
+  				    question = String(data["current_q"]);
+  				  }
+            if ("scoreboard" in data){
+              console.log(data["scoreboard"]);
+              scoreboard = JSON.parse(data["scoreboard"])
+              var arrayLength = scoreboard.length;
+              var table
+              for (var i = 0; i < arrayLength; i++) {
+                  console.log(scoreboard[i]["fields"]["name"])
+                  console.log(scoreboard[i]["fields"]["score"])
+                  table
+                  //Do something
+              }
+              //for (team in data["scoreboard"]){
+              //  console.log(team);
+              //}
+              //$('#scoreboard').html(data["scoreboard"]);
+            }
         }
           
     });

@@ -5,6 +5,7 @@ from django.http import HttpResponse
 from django.template import RequestContext
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.core import serializers
 
 import json
 
@@ -62,8 +63,36 @@ def about(request):
     
 # user joins quiz
 def join(request):
-	# todo
-	return HttpResponse('Joined')
+    context_dict = {}
+    context = RequestContext(request)
+    
+    if request.method == 'POST':
+
+        # Gather the teamname and sessionid provided by the user.
+        # This information is obtained from the join form.
+        teamname = request.POST['teamname']
+        sessionid = request.POST['sessionid']
+        
+        # check that the session exists
+        try:
+            print sessionid
+            quiz_inst = QuizInstance.objects.get(id = sessionid)
+            # check that the session is still joinable
+            if quiz_inst.state == 'joinable':
+                # then join the quiz
+                player = Player(name = teamname, score = 0, quiz_instance = quiz_inst)
+                player.save()
+                
+                # redirect to the quiz page
+                return redirect(reverse('play', args=[quiz_inst.id]))
+            else:
+                # this quiz is in progress or over so cannot be joined
+                context_dict['closed_session'] = True
+        except QuizInstance.DoesNotExist:
+            # an invalid session id was entered so we return an error message to the form
+            context_dict['invalid_session'] = True
+
+    return render_to_response('squiz/join.html', context_dict, context)
 	
 # create quiz
 @login_required
@@ -266,6 +295,14 @@ def get_question(request):
   # get current question session and current question number
   quiz_inst = QuizInstance.objects.get(id = request.GET['quizID'])  
   current_q = quiz_inst.current_question
+  
+  # if the quiz is over, get the scoreboard (ordered by score)
+  if quiz_inst.state == 'over':
+      print "over"
+      context_dict = {}
+      context = RequestContext(request)
+      cereal = serializers.serialize('json', Player.objects.filter(quiz_instance = quiz_inst).order_by('score'))
+      return HttpResponse(json.dumps({'scoreboard':cereal}))
 
   # if the question has updated, then return the new question
   if request.GET['question'] == current_q:
@@ -417,8 +454,3 @@ def start(request, quiz_id):
     
     # redirect user to the play page
     return redirect(reverse('play', args=[quiz_inst.id]))
-    
-
-
-
-

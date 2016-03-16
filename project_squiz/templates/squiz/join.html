@@ -1,0 +1,52 @@
+{% extends 'squiz/base.html' %}
+{% block title_block %}home{% endblock %}
+
+{% block body_block %}
+<!-- Put your page content here! -->
+<div id="full">
+  <div class="container-fluid">
+    <div class="height10"></div>
+    <div class="row">      
+      <!-- Middle Pane -->
+      <div class="col-md-10 col-md-offset-1">
+        <div class="block">
+          <div class="height20">
+            <p class="titlefont">Join a Quiz</p>
+          </div>
+          <div class="height10"></div>
+          <form class="form-signin form-horizontal" role="form" id="login_form" method="post" action="{% url 'join' %}">
+            {% csrf_token %}
+            {% if closed_session %}
+            <p class="errorlist">This quiz is closed to new entry.  It may have already started or be finished.</p>
+            {% elif invalid_session %}
+            <p class="errorlist">The unique id does not match any quiz sessions.</p>
+            {% endif %}
+            
+            <div class="form-group">
+              <label class="control-label col-sm-2" for="teamname">Name:</label>
+              <div class="col-sm-10">
+                <input id="teamname" type="text" class="form-control" placeholder="Quizzer/Team Name" name="teamname" value="">
+              </div>
+            </div>
+            
+            <div class="form-group">
+              <label class="control-label col-sm-2" for="sessionid">Enter the Quiz ID:</label>
+              <div class="col-sm-10">
+                <input id="sessionid" type="text" class="form-control" placeholder="Unique Quiz ID" name="sessionid" value="">
+              </div>
+            </div>
+            
+            <div class="form-group"> 
+              <div class="col-sm-offset-2 col-sm-10">
+                <button class="btn btn-primary home-buttons btn-lg pull-right" type="submit">Join</button>
+              </div>
+            </div>
+          </form>
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

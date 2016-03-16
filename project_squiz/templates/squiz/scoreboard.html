@@ -1,0 +1,26 @@
+{% extends 'squiz/base.html' %}
+{% block title_block %}home{% endblock %}
+
+{% block body_block %}
+<!-- Put your page content here! -->
+<div id="full">
+  <div class="container-fluid">
+    <div class="height10"></div>
+    <div class="row">      
+      <!-- Middle Pane -->
+      <div class="col-md-10 col-md-offset-1">
+        <div class="block">
+          <div class="height20">
+            <p class="titlefont">Final Scores</p>
+          </div>
+          <div class="height10"></div>
+          
+          {% for player in scores %}
+          <h5>{{player.name}} {{player.score}}</h5>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
