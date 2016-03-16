@@ -98,10 +98,10 @@
 {% block js_block %}
 
 <script>
-var myVar = setInterval(updateQuestion, 1000);
+var myVar = setInterval(updateQuestion, 3000);
 
 var quizID = {{ instance.id }};
-var question = "{{ instance.question_number }}";
+var question = "{{ instance.current_question }}";
 console.log(question);
 
 function updateQuestion() {
@@ -113,7 +113,8 @@ function updateQuestion() {
 				if (data){
 				    data = JSON.parse(data);
 				    $("#question").html(data["question"]);
-				    question = Strin(data["current_q"]);
+				    question = String(data["current_q"]);
+				    console.log(question)
         }
           
     });
@@ -122,8 +123,6 @@ function updateQuestion() {
 $('#advance').click(function(){
     jQuery.get( '{% url 'adv_question' instance.id %}' );
     updateQuestion();
-    console.log('advance');
-    alert('here');
 });
 
 </script>

@@ -276,7 +276,7 @@ def get_question(request):
       quiz = quiz_inst.quiz
 
       # get round from roundinquiz
-      this_round = RoundInQuiz.objects.filter(this_quiz=quiz).get(number=current_q.split('')[0]).this_round
+      this_round = RoundInQuiz.objects.filter(this_quiz=quiz).get(number=current_q.split('q')[0]).this_round
 
       # get question from questioninround
       this_question = QuestionInRound.objects.filter(this_round=this_round).get(number=current_q.split('q')[1]).this_question
@@ -410,7 +410,7 @@ def start(request, quiz_id):
     this_host = request.user.host
     
     # create a new quiz instance
-    quiz_inst = QuizInstance(quiz = this_quiz, host = this_host, current_question = '1,0', state='joinable')
+    quiz_inst = QuizInstance(quiz = this_quiz, host = this_host, current_question = '0q-1', state='joinable')
     quiz_inst.save()
     
     print quiz_inst.current_question
