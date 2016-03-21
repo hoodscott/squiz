@@ -65,6 +65,12 @@ input, select, textarea {
   }
 }
 
+@media screen and (max-height : 625px){
+  .bigbuttontext {
+    font-size: 0.5em;
+  }
+}
+
 .questionfont {
 	font-size: 2em;
 }	
@@ -81,6 +87,8 @@ input, select, textarea {
 	width: 100%;
 	height: 40%;
 	margin-top: 30px;
+
+  overflow: hidden;
 
 	border-radius: 10px;
 }

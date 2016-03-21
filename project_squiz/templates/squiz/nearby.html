@@ -13,19 +13,14 @@
       <div class="col-md-10 col-md-offset-1">
         <div class="block">
           <div class="height20">
-            <p class="titlefont">Near By</p>
+            <p class="titlefont">Quiz Nearby</p>
           </div>
           <div class="height80">
             
 		    {% if venues %}
 		    {% for venue in venues %}
 		    <h3> {{ venue.name }} </h3>
-		    <ul>
-		      <li>{{ venue.lat }}</li>
-		      <li>{{ venue.lon }}</li>
-		      <li>{{ venue.host }}</li>
-		      <li>{{ venue.time }}</li>
-		    </ul>
+        <h4>{{venue.time}}</h4>
 		    {% endfor %}
 
 		    {% else %}
