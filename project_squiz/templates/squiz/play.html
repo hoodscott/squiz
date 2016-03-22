@@ -15,10 +15,10 @@
 					<div class="height20">
 						<div class="row">
 							<div class="col-xs-9">
-								<textarea class="form-control" cols="10" id="comment"></textarea>
+								<textarea placeholder="answer" class="form-control" cols="10" id="comment"></textarea>
 							</div>
 							<div class="col-xs-3">
-								<button type="button" class="btn btn-primary col-xs-12">Primary</button>
+								<button id="submitquestion" type="button" class="btn btn-primary col-xs-12">Submit</button>
 							</div>
 						</div>
 					</div>
@@ -56,7 +56,8 @@
 
 {% block js_block %}
 <script>
-var myVar = setInterval(updateQuestion, 1000);
+// call checkup function every few seconds
+var myVar = setInterval(updateQuestion, 3000);
 
 var quizID = {{ instance.id }};
 var question = "0q-1";
@@ -69,13 +70,16 @@ function updateQuestion() {
 				
 				if (data){
 				    data = JSON.parse(data);
+				    // get current question if updated
 				    if ("question" in data){
 				      $("#question").html(data["question"]);
 				      console.log("question")
 				    }
+				    // update question pointer if updated
 				    if ("current_q" in data){
   				    question = String(data["current_q"]);
   				  }
+  				  // update scoreboard, if updated
             if ("scoreboard" in data){
               scoreboard = JSON.parse(data["scoreboard"])
               var arrayLength = scoreboard.length;
@@ -96,6 +100,11 @@ $('#advance').click(function(){
     updateQuestion();
 });
 
+$('#submitquestion').click(function(){
+    var answer = "ans" 
+    var id = "1"
+    jQuery.get( '/update_question/?id='+id+'&answer='+answer);
+});
 </script>
 
 {% endblock%}
