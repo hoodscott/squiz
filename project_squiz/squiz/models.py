@@ -123,6 +123,8 @@ class Player(models.Model):
     name = models.CharField(max_length=128)
     # the players score in this quiz
     score = models.IntegerField()
+    # the players current answer
+    answer = models.CharField(max_length=128)    
     # the curerent quiz instance the team is playing in
     quiz_instance = models.ForeignKey(QuizInstance)
     
