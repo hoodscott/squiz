@@ -45,10 +45,21 @@ def index(request):
 
     else:
         login_form = LoginForm
+    
+    # get this user's quizzes
+    my_quizzes = Quiz.objects.filter(creator = request.user.host)
+    for quiz in my_quizzes:
+        quiz.plays = QuizInstance.objects.filter(quiz = quiz).count()
+        quiz.rounds = RoundInQuiz.objects.filter(this_quiz = quiz).count()
+    
+    #get all quizzes
+    all_quizzes = Quiz.objects.all()
+    for quiz in all_quizzes:
+        quiz.plays = QuizInstance.objects.filter(quiz = quiz).count()
+        quiz.rounds = RoundInQuiz.objects.filter(this_quiz = quiz).count()    
 
-    quizzes = Quiz.objects.all()
-    #todo, append count of rounds, count of plays
-    context_dict['quizzes'] = quizzes
+    context_dict['my_quizzes'] = my_quizzes
+    context_dict['all_quizzes'] = all_quizzes
 
     context_dict['login_form'] = login_form
 
@@ -75,7 +86,6 @@ def join(request):
         
         # check that the session exists
         try:
-            print sessionid
             quiz_inst = QuizInstance.objects.get(id = sessionid)
             # check that the session is still joinable
             if quiz_inst.state == 'joinable':
@@ -166,7 +176,6 @@ def create_round(request, quiz_id=None):
                 # redirect back to quiz page
                 return redirect(reverse('view_quiz', args=[quiz_id]))
             else:
-                print quiz_id
                 # otherwise show the new round page
                 return redirect(reverse('view_round', args=[this_round.id]))
         else:
@@ -296,6 +305,7 @@ def get_question(request):
   
   # if the quiz is over, return "something" to end the game
   if quiz_inst.state == 'over':
+      #todo
       print "over"
   
   # get scoreboard
@@ -309,8 +319,6 @@ def get_question(request):
   else:
       # get quiz
       quiz = quiz_inst.quiz
-      
-      print "in the thing"
 
       # get round from roundinquiz
       this_round = RoundInQuiz.objects.filter(this_quiz=quiz).get(number=current_q.split('q')[0]).this_round
@@ -345,7 +353,6 @@ def advance_question(request, instance_id):
         this_round = RoundInQuiz.objects.filter(this_quiz=quiz).get(number=current_q.split('q')[0]).this_round
     except RoundInQuiz.DoesNotExist:
         # we have reached the end of the quiz
-        print "in here"
         quiz_inst.state = 'over'
         quiz_inst.save()
         return HttpResponse()

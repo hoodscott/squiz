@@ -11,31 +11,66 @@
         <div class="block">
           <h2>Quizzes</h2>
             <!-- insert table here -->
-            {% if quizzes %}
-            <table id="quiz_table" class="table table-responsive table-striped table-bordered nowrap" cellspacing="0" width="100%">
-                <thead>
-                    <tr>
-                        <th>Title</th>
-                        <th>Creator</th>
-                        <th>Number of Rounds</th>
-                        <th>Number of Plays</th>
-                        <th>Edit Quiz</th>
-                        <th>Play Quiz</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for quiz in quizzes %}
-                    <tr>
-                        <td>{{ quiz.name }}</td>
-                        <td>{{ quiz.creator }}</td>
-                        <td>todo</td>
-                        <td>todo</td>
-                        <td><a href="{% url 'view_quiz' quiz.id %}"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span></a></td>
-                        <td><a href="{% url 'start' quiz.id %}"><span class="glyphicon glyphicon-play" aria-hidden="true"></span></a></td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+            {% if my_quizzes or all_quizzes %}
+            <ul class="nav nav-tabs">
+              {% if my_quizzes %}<li><a data-toggle="tab" href="#myquiz">My Quizzes</a></li>{% endif %}
+              {% if all_quizzes %}<li class="active"><a data-toggle="tab" href="#allquiz">All Quizzes</a></li>{% endif %}
+            </ul>
+
+            <div class="tab-content">
+              {% if my_quizzes %}<div id="myquiz" class="tab-pane fade">
+                  <table id="myquiz_table" class="table table-responsive table-striped table-bordered nowrap">
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Creator</th>
+                            <th>Number of Rounds</th>
+                            <th>Number of Plays</th>
+                            <th>Edit Quiz</th>
+                            <th>Play Quiz</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for quiz in my_quizzes %}
+                        <tr>
+                            <td>{{ quiz.name }}</td>
+                            <td>{{ quiz.creator }}</td>
+                            <td>{{ quiz.rounds }}</td>
+                            <td>{{ quiz.plays }}</td>
+                            <td><a href="{% url 'view_quiz' quiz.id %}"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span></a></td>
+                            <td><a href="{% url 'start' quiz.id %}"><span class="glyphicon glyphicon-play" aria-hidden="true"></span></a></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+              </div>{% endif %}
+              {% if all_quizzes %}<div id="allquiz" class="tab-pane fade in active">
+                  <table id="allquiz_table" class="table table-responsive table-striped table-bordered nowrap">
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Creator</th>
+                            <th>Number of Rounds</th>
+                            <th>Number of Plays</th>
+                            <th>Edit Quiz</th>
+                            <th>Play Quiz</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for quiz in all_quizzes %}
+                        <tr>
+                            <td>{{ quiz.name }}</td>
+                            <td>{{ quiz.creator }}</td>
+                            <td>{{ quiz.rounds }}</td>
+                            <td>{{ quiz.plays }}</td>
+                            <td><a href="{% url 'view_quiz' quiz.id %}"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span></a></td>
+                            <td><a href="{% url 'start' quiz.id %}"><span class="glyphicon glyphicon-play" aria-hidden="true"></span></a></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+              </div>{% endif %}
+            </div>
             {% else %}
                 <h3>No quizzes on website</h3>
             {% endif %}
@@ -136,7 +171,10 @@
 {% block js_block %}
 <script>
     $(document).ready(function() {
-        $('#quiz_table').DataTable({
+        $('#myquiz_table').DataTable({
+            responsive: true
+        });
+        $('#allquiz_table').DataTable({
             responsive: true
         });
     } );

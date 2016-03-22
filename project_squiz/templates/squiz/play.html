@@ -33,7 +33,7 @@
           </div>
           <div class="height80">
   					<div id="scoreboard"></div>
-  					<table>
+  					<table class="table table-responsive table-striped table-bordered nowrap">
   					  <thead>
   					  <tr>
   					    <th>Names</th>
@@ -44,7 +44,7 @@
   					  </tbody>
   					</table>
   					{% if user.host == instance.host %}
-  					  <button href="" id="advance" class="btn-primary">Next Question</button>
+  					  <button id="advance" class="btn-primary">Next Question</button>
   					{% endif %}
           </div>
         </div>

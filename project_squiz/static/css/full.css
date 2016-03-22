@@ -118,6 +118,11 @@ input, select, textarea {
     background-color: rgba(20, 20, 19, 0.59);
 }
 
+table { 
+    border-spacing: 0px;
+    border-collapse: separate;
+}
+
 .errorlist {
   color: rgba(255, 34, 34, 1);
   list-style-type: none;
