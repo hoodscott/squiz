@@ -358,6 +358,13 @@ def advance_question(request, instance_id):
     try:
         
         this_question = QuestionInRound.objects.filter(this_round=this_round).get(number=current_questionnum+1)
+        # update scores
+        players = Player.objects.filter(quiz_instance = quiz_inst)
+        for player in players:
+            if player.answer == this_question.answer:
+                player.score = player.score + 1
+                player.save()        
+        
         # if it exists, increment questionnumber
         quiz_inst.current_question = str(current_roundnum)+'q'+str(current_questionnum+1)
     except QuestionInRound.DoesNotExist:
@@ -366,6 +373,24 @@ def advance_question(request, instance_id):
     
     # save new pointer in this instance
     quiz_inst.save()
+    
+    # return empty response
+    return HttpResponse()
+
+    
+@login_required
+def update_answer(request, player_id, answer):
+    context = RequestContext(request)
+    context_dict = {}
+    
+    # get player
+    player = Player.objects.get(id = player_id)
+    
+    # update player's answer
+    player.answer = answer
+    
+    # save player instance
+    player.save()
     
     # return empty response
     return HttpResponse()
