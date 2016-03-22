@@ -52,6 +52,11 @@ class QuestionForm(forms.ModelForm):
     # creator of the question
     creator = forms.IntegerField(widget = forms.HiddenInput(), required=False)
     
+    category = forms.ModelChoiceField(queryset=Category.objects.all().order_by('name'),
+                                                required=True,
+                                                label='Category')
+                                               
+    
     # add bootstrap class to each field
     def __init__(self, *args, **kwargs):
         super(QuestionForm, self).__init__(*args, **kwargs)

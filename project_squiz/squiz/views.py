@@ -213,15 +213,20 @@ def create_question(request, round_id=None):
             # set foreign key of the creator of the round
             question.creator = request.user.host
 
-            # save resource before we add tags
+            # save resource before we add a category            
             question.save()
+            
+            # add cateogory
+            cat = question_form.cleaned_data['category']
+            qhc = QuestionHasCategory(this_question = question, this_category = cat)
+            qhc.save()            
             
             if round_id != None:
                 # add this new round to the quiz
                 question_num = QuestionInRound.objects.filter(this_round = this_round).count()
                 
                 new_record = QuestionInRound(this_question = question, this_round = this_round, number=question_num)
-                new_record.save()
+                new_record.save()                
                 
                 # redirect back to round page
                 return redirect(reverse('view_round', args=[round_id]))
@@ -281,6 +286,9 @@ def view_question(request, question_id):
     try:
       this_question = Question.objects.get(id=question_id)
       context_dict['question'] = this_question
+      
+      qhc = QuestionHasCategory.objects.get(this_question=this_question)
+      context_dict['category'] = qhc.this_category
 
     except Question.DoesNotExist:
       # no round at this url
