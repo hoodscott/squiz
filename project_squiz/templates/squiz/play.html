@@ -13,6 +13,9 @@
 						<p class="questionfont" id="question"></p>
 					</div>
 					<div class="height20">
+					  {% if user.host == instance.host %}
+  					  <button id="advance" class="btn-primary btn btn-lg">Next Question</button>
+  					{% else %}
 						<div class="row">
 							<div class="col-xs-9">
 								<textarea placeholder="answer" class="form-control" cols="10" id="comment"></textarea>
@@ -21,6 +24,7 @@
 								<button id="submitquestion" type="button" class="btn btn-primary col-xs-12">Submit</button>
 							</div>
 						</div>
+						{% endif %}
 					</div>
         </div>
       </div>
@@ -43,9 +47,6 @@
   					  <tbody id="tablebody">
   					  </tbody>
   					</table>
-  					{% if user.host == instance.host %}
-  					  <button id="advance" class="btn-primary">Next Question</button>
-  					{% endif %}
           </div>
         </div>
       </div>
@@ -103,7 +104,7 @@ $('#advance').click(function(){
 $('#submitquestion').click(function(){
     var answer = "ans" 
     var id = "1"
-    jQuery.get( '/update_question/?id='+id+'&answer='+answer);
+    jQuery.get( '/update_answer/?id='+id+'&answer='+answer);
 });
 </script>
 

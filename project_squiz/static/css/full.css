@@ -121,6 +121,7 @@ input, select, textarea {
 table { 
     border-spacing: 0px;
     border-collapse: separate;
+    width:100%;
 }
 
 .errorlist {

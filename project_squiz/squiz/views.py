@@ -46,20 +46,21 @@ def index(request):
     else:
         login_form = LoginForm
     
-    # get this user's quizzes
-    my_quizzes = Quiz.objects.filter(creator = request.user.host)
-    for quiz in my_quizzes:
-        quiz.plays = QuizInstance.objects.filter(quiz = quiz).count()
-        quiz.rounds = RoundInQuiz.objects.filter(this_quiz = quiz).count()
-    
-    #get all quizzes
-    all_quizzes = Quiz.objects.all()
-    for quiz in all_quizzes:
-        quiz.plays = QuizInstance.objects.filter(quiz = quiz).count()
-        quiz.rounds = RoundInQuiz.objects.filter(this_quiz = quiz).count()    
+    if request.user.is_authenticated():
+        # get this user's quizzes
+        my_quizzes = Quiz.objects.filter(creator = request.user.host)
+        for quiz in my_quizzes:
+            quiz.plays = QuizInstance.objects.filter(quiz = quiz).count()
+            quiz.rounds = RoundInQuiz.objects.filter(this_quiz = quiz).count()
+        
+        #get all quizzes
+        all_quizzes = Quiz.objects.all()
+        for quiz in all_quizzes:
+            quiz.plays = QuizInstance.objects.filter(quiz = quiz).count()
+            quiz.rounds = RoundInQuiz.objects.filter(this_quiz = quiz).count()    
 
-    context_dict['my_quizzes'] = my_quizzes
-    context_dict['all_quizzes'] = all_quizzes
+        context_dict['my_quizzes'] = my_quizzes
+        context_dict['all_quizzes'] = all_quizzes
 
     context_dict['login_form'] = login_form
 
@@ -376,7 +377,7 @@ def advance_question(request, instance_id):
         # update scores
         players = Player.objects.filter(quiz_instance = quiz_inst)
         for player in players:
-            if player.answer == this_question.answer:
+            if player.answer == this_question.this_question.answer:
                 player.score = player.score + 1
                 player.save()        
         
@@ -392,8 +393,7 @@ def advance_question(request, instance_id):
     # return empty response
     return HttpResponse()
 
-    
-@login_required
+
 def update_answer(request, player_id, answer):
     context = RequestContext(request)
     context_dict = {}
