@@ -1,6 +1,7 @@
 # squiz
-Quiz app description here.
-
+Paperless pub quiz.
+Players can join quizzes easily and see where nearby quizzes are.
+Hosts can create their own or use other user-created quizzes to then play at their venue.
 ## Setup
 To run a local version of this django app:
 
@@ -11,21 +12,15 @@ pip install -r requirements.txt
 This will install all of the dependencies needed by this app.
 
 
-
-If you have made any changes to the database, run;
-```
-python manage.py makemigrations
-```
-This will create some migration files that tell django the difference between the current database and the models in models.py
-
-
-
-To apply migrations or to create the databaser, type;
+Navigate to the directory then to apply migrations or to create the database, type;
 ```
 python manage.py migrate
 ```
-This will make any migrations produced by ```makemigrations``` to the database.
 
+Then run the population script
+```
+python pop.py
+```
 
 
 Finally, to run the server, run;
