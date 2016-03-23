@@ -110,6 +110,33 @@ class QuizForm(forms.ModelForm):
         fields = ('name', 'creator')
         exclude = []
         
+class VenueForm(forms.ModelForm):
+    
+     # add bootstrap class to each field
+    def __init__(self, *args, **kwargs):
+        super(VenueForm, self).__init__(*args, **kwargs)
+        for field_name, field in self.fields.items():
+            field.widget.attrs['class'] = 'form-control'
+    
+    class Meta:
+        model = Venue
+        fields = ('name', 'lat', 'lon')
+        exclude = []
+        
+class TimeForm(forms.ModelForm):
+
+     # add bootstrap class to each field
+    def __init__(self, *args, **kwargs):
+        super(TimeForm, self).__init__(*args, **kwargs)
+        for field_name, field in self.fields.items():
+            field.widget.attrs['class'] = 'form-control'
+    
+    class Meta:
+        model = QuizTime
+        fields = ('day', 'time')
+        exclude = []
+  
+        
 
 class LoginForm(forms.Form):
 

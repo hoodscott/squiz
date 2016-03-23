@@ -1,4 +1,6 @@
 {% extends 'squiz/base.html' %}
+{% load static %}
+
 {% block title_block %}home{% endblock %}
 
 {% block body_block %}
@@ -181,4 +183,7 @@
         });
     } );
 </script>
+
+<!-- DATATABLES -->
+<script type="text/javascript" src="{% static 'js/datatables.min.js' %}"></script>
 {% endblock%}

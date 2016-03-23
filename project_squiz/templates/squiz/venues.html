@@ -1,0 +1,98 @@
+{% extends 'squiz/base.html' %}
+
+{% block title_block %}
+    venues
+{% endblock %}
+
+{% block body_block %}
+<div id="full">
+  <div class="container-fluid">
+    <div class="height10"></div>
+    <div class="row">
+      <!-- Left Pane -->
+      <div class="col-md-10 col-md-offset-1">
+        <div class="block">
+          <div class="height20">
+            <p class="titlefont">Your Venues and Times</p>
+          </div>
+          <div class="height80">
+            
+		    {% if venues %}
+		    {% for venue in venues %}
+		    <h3> {{ venue.name }} </h3>
+        <h4>{{ venue.time }}</h4>
+		    {% endfor %}
+
+		    {% else %}
+		    <h3> There are no venues to display </h3>
+		    {% endif %}
+
+        <br>
+		    
+		    <!-- Trigger the modal with a button -->
+<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">Add Venue</button>
+
+                <!-- Modal -->
+                <div id="myModal" class="modal fade" role="dialog">
+                  <div class="modal-dialog">
+
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Add Venue</h4>
+                      </div>
+                      <div class="modal-body">
+                        <form class="form-horizontal" role="form" id="venue_form" method="post" action="{% url 'venues' %}" enctype="multipart/form-data">
+              {% csrf_token %}
+              {% for hidden in venue_form.hidden_fields %}
+                {{ hidden }}
+              {% endfor %}
+              
+              {% for hidden in time_form.hidden_fields %}
+                {{ hidden }}
+              {% endfor %}
+
+              {% for field in venue_form.visible_fields %}
+              <div class="form-group">
+                {{ field.errors }}
+                <label class="control-label col-sm-2" for="{{ field.label }}">{{ field.label }}:</label>
+                <div class="col-sm-10">
+                  {{ field }}
+                </div>
+              </div>
+              {% endfor %}
+              
+              {% for field in time_form.visible_fields %}
+              <div class="form-group">
+                {{ field.errors }}
+                <label class="control-label col-sm-2" for="{{ field.label }}">{{ field.label }}:</label>
+                <div class="col-sm-10">
+                  {{ field }}
+                </div>
+              </div>
+              {% endfor %}
+              
+              <div class="form-group"> 
+                <div class="col-sm-offset-2 col-sm-10">
+                  <button class="btn btn-primary home-buttons btn-lg pull-right" type="submit">Add Pub Venue</button>
+                </div>
+              </div>
+              
+            </form>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+		    
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

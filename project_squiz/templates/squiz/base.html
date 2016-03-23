@@ -49,6 +49,9 @@
           <li>
             <a href="{% url 'create_quiz' %}">Create Quiz</a>
           </li>
+          <li>
+            <a href="{% url 'venues' %}">Add Venue</a>
+          </li>
           {% else %}
           <li>
             <a href="{% url 'register' %}">Register to Host</a>
@@ -69,10 +72,7 @@
     {% block body_block %}{% endblock %}
     
     <!-- jQuery -->
-    <script src="{% static 'js/jquery.js' %}"></script>    
-
-    <!-- DATATABLES -->
-    <script type="text/javascript" src="{% static 'js/datatables.min.js' %}"></script>
+    <script src="{% static 'js/jquery.js' %}"></script>
 
 	  <!-- Ajax -->
 	  <script src="{% static "js/ajax.js" %}"></script>

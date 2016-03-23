@@ -483,6 +483,7 @@ def start(request, quiz_id):
     # get the quiz object, 404 if not there
     this_quiz = get_object_or_404(Quiz, id = quiz_id)
     
+    # todo
     # check there are rounds
     # check there are no emtpty rounds
     
@@ -493,7 +494,54 @@ def start(request, quiz_id):
     quiz_inst = QuizInstance(quiz = this_quiz, host = this_host, current_question = '0q0', state='joinable')
     quiz_inst.save()
     
-    print quiz_inst.current_question
-    
     # redirect user to the play page
     return redirect(reverse('play', args=[quiz_inst.id]))
+    
+@login_required
+def venues(request):
+    context_dict = {}
+    context = RequestContext(request)
+        
+    # get the current user
+    this_host = request.user.host
+    
+    # get the user's venues
+    context_dict['venues'] = Venue.objects.filter(host = this_host)
+    
+    # A HTTP POST?
+    if request.method == 'POST':
+        venue_form = VenueForm(request.POST)
+        time_form = TimeForm(request.POST)
+
+     # Have we been provided with a valid form?
+        if venue_form.is_valid() and time_form.is_valid():
+            # delay saving the model until we're ready to avoid integrity problems
+            venue = venue_form.save(commit=False)
+            
+            # save time
+            time = time_form.save()
+            
+            # add time and host to venue, then save
+            venue.time = time
+            venue.host = this_host
+            venue.save()
+
+            # refresh page
+            return redirect(reverse('venues'))
+
+        else:
+            # The supplied form contained errors - just print them to the terminal.
+            print venue_form.errors
+            print time_form.errors
+
+    else:
+        # If the request was not a POST, display the form to enter details.
+        venue_form = VenueForm()
+        time_form = TimeForm()
+        
+       
+    context_dict['venue_form'] = venue_form
+    context_dict['time_form'] = time_form    
+    
+    # redirect user to the play page
+    return render_to_response('squiz/venues.html', context_dict, context)

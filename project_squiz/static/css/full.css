@@ -130,3 +130,6 @@ label {
   font-size: 0.8em;
 }
 
+.modal-content {
+  background-color:rgba(25, 15, 6, 0.92);
+}

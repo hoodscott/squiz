@@ -22,6 +22,7 @@ urlpatterns = [
     url(r'^start/(?P<quiz_id>\w+)/$', views.start, name='start'),# start a quiz, create a quiz instance
     
     url(r'^nearby/$', views.nearby, name='nearby'),  #shows pup quizzes and times near to the users location
+    url(r'^venues/$', views.venues, name='venues'), # shows a host their venues
     
     #ajax calls
     url(r'^get_question/$', views.get_question, name='get_question'),# get the current question
