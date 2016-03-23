@@ -138,7 +138,7 @@ class QuizTime(models.Model):
         ('Monday', 'Monday'),
         ('Tuesday', 'Tuesday'),
         ('Wednesday', 'Wednesday'),
-        ('Thursday', 'Thurssday'),
+        ('Thursday', 'Thursday'),
         ('Friday', 'Friday'),
         ('Saturday', 'Saturday'),
         ('Sunday', 'Sunday'),

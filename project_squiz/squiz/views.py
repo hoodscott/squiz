@@ -418,10 +418,10 @@ def nearby(request):
     lat = float(request.GET.get('lat'))
     lon = float(request.GET.get('lon'))
     
-    max_lat = lat + 0.002
-    min_lat = lat - 0.002
-    max_lon = lon + 0.002
-    min_lon = lon - 0.002
+    max_lat = lat + 0.02
+    min_lat = lat - 0.02
+    max_lon = lon + 0.02
+    min_lon = lon - 0.02
 
     try:
       context_dict['venues'] = Venue.objects.filter(lat__gt=min_lat, lat__lt=max_lat, lon__gt=min_lon, lon__lt=max_lon)
