@@ -1,0 +1,17 @@
+Idea:
+Paperless Pub quiz app that removes the need to pub owners to hire a quiz master and provides a platform to host their own unique quiz with either randomly
+generated questions or questions submitted by users.
+
+Requirements:
+- Pub owners shouble be able to create their own unique quiz
+
+- Players should be able to register for a quiz given a session number
+
+- Players and pub owners can create their own questions for quizzes and then pub owners can use those questions
+
+- Team rankings should be shown between each round and the end of the quiz
+
+Why is it useful:
+Reduces costs (Monetery and potentially time wise if the pub owner creates their own questions)
+Makes quizes fairer as players can no longer google answers while using the app
+More convienient for players, don't have to leave there seat to submit answers
