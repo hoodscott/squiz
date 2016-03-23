@@ -1,17 +1,28 @@
 {% extends 'squiz/base.html' %}
 
-{% block title_block %}about{% endblock %}
+{% block title_block %}
+    about
+{% endblock %}
 
 {% block body_block %}
-
-<div class="container-fluid">
-	<div class="row">
-		<div class="col-md-12 parent">
-		  <div class="block">
-		    <img src="http://orig04.deviantart.net/ce68/f/2016/047/9/5/635911545413949390_1780671924_hs_by_drakethemastersaiyan-d9s1vux.png" alt="squidward"/>
-		  </div>
-		</div>
+<div id="full">
+  <div class="container-fluid">
+    <div class="height10"></div>
+    <div class="row">
+      <!-- Left Pane -->
+      <div class="col-md-10 col-md-offset-1">
+        <div class="block">
+          <div class="height20">
+            <p class="titlefont">About</p>
+          </div>
+          <div class="height80">
+            <p>Paperless Pub quiz website created as part of the ITECH2016 course at the University of Glasgow<p>            
+            <p>Created by Callum, Jamie, Karl, and Scott.</p>
+            <a href="http://www.github.com/hoodscott/squiz">Github</a>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
-
 {% endblock %}
