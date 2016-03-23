@@ -10,10 +10,10 @@ from datetime import datetime
 def populate():
     # add users
     david = add_Host('david', 'http://www.tangowithdjango.com/')
-    dovid = add_Host('david', 'http://www.tangowithdjango.com/')
+    laura = add_Host('laura', 'http://www.tangowithdjango.com/')
     leifos = add_Host('leifos', 'http://www.tangowithdjango.com/')
     
-    squiz = add_Host('squiz', 'http://squidl.pythonanywhere.com/')
+    squiz = add_Host('squiz', 'http://squiz.pythonanywhere.com/')
     
     
     # create categories
@@ -58,7 +58,7 @@ def populate():
     all_rounds = add_quiz('Big Quiz', squiz)
     sponge_sport = add_quiz('Spongbob Sportspants', squiz)
     
-    # quizzes in roudns
+    # quizzes in rounds
     add_question_in_round(sb_round, sb1, 0)
     add_question_in_round(sb_round, sb2, 1)
     add_question_in_round(sb_round, sb3, 2)
@@ -69,12 +69,11 @@ def populate():
     
     add_question_in_round(gk_round, gk1, 0)
     add_question_in_round(gk_round, gk2, 1)
-    add_question_in_round(gk_round, gk3, 2)    
+    add_question_in_round(gk_round, gk3, 2)
     
     # rounds in quizzes
-    add_round_in_quiz(all_rounds, sb_round, 0)
-    add_round_in_quiz(all_rounds, sp_round, 1)
-    add_round_in_quiz(all_rounds, gk_round, 2)
+    add_round_in_quiz(all_rounds, sp_round, 0)
+    add_round_in_quiz(all_rounds, gk_round, 1)
     
     add_round_in_quiz(sponge_sport, sb_round, 0)
     add_round_in_quiz(sponge_sport, sp_round, 1)
@@ -99,16 +98,15 @@ def add_cat(name):
     return c
     
 def add_question(q, a, host):
-    print "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
     question = Question.objects.get_or_create(question = q, answer = a, creator=host)[0]
     return question
     
 def add_round(name, host):
-    r = Round.objects.get_or_create(name=name, creator = host)[0]   
+    r = Round.objects.get_or_create(name=name, creator = host)[0]
     return r
     
 def add_quiz(name, host):
-    q = Quiz.objects.get_or_create(name=name, creator = host)[0]   
+    q = Quiz.objects.get_or_create(name=name, creator = host)[0]
     return q
     
 def add_round_in_quiz(quiz, this_round, num):
@@ -128,7 +126,7 @@ def add_Host(username, url):
     user.set_password(username)
     user.save()
     host = Host.objects.get_or_create(url=url, user=user)[0]
-    return host    
+    return host
     
 def add_Venue(name, lat, lon, host, time):
     venue = Venue.objects.get_or_create(name=name, lon=lon, lat=lat, time=time, host=host)[0]
@@ -136,7 +134,7 @@ def add_Venue(name, lat, lon, host, time):
     
 def add_Quiz_Time(day):
     qt = QuizTime.objects.get_or_create(day=day, time=datetime.now())[0]
-    return qt    
+    return qt
     
 
 # Start execution here!

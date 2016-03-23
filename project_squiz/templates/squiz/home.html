@@ -19,7 +19,8 @@
 
             <div class="tab-content">
               {% if my_quizzes %}<div id="myquiz" class="tab-pane fade">
-                  <table id="myquiz_table" class="table table-responsive table-striped table-bordered nowrap">
+                  <table id="myquiz_table" class="table table-responsive table-striped table-bordered nowrap" width="100%">
+                    <!-- width attribute is required for responsive datatables https://datatables.net/examples/basic_init/flexible_width.html -->
                     <thead>
                         <tr>
                             <th>Title</th>
@@ -45,7 +46,8 @@
                 </table>
               </div>{% endif %}
               {% if all_quizzes %}<div id="allquiz" class="tab-pane fade in active">
-                  <table id="allquiz_table" class="table table-responsive table-striped table-bordered nowrap">
+                  <table id="allquiz_table" class="table table-responsive table-striped table-bordered nowrap" width="100%">
+                    <!-- width attribute is required for responsive datatables https://datatables.net/examples/basic_init/flexible_width.html -->
                     <thead>
                         <tr>
                             <th>Title</th>
@@ -110,7 +112,7 @@
 			function getLocation() {
 			    if (navigator.geolocation) {
 			        navigator.geolocation.getCurrentPosition(redirect);
-			    } else { 
+			    } else {
 			        // Inform user
 			    }
 			}
@@ -152,7 +154,7 @@
               </div>
             </div>
             
-            <div class="form-group"> 
+            <div class="form-group">
               <div class="col-sm-offset-2 col-sm-10">
                 <button class="btn btn-primary home-buttons btn-lg pull-right" type="submit">Sign in</button>
               </div>
